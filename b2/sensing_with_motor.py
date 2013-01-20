@@ -30,7 +30,7 @@ class Billy:
     def init_attiny(self, port):
         self.att = attiny.ATtiny(port)
         self.motor_right = attiny.Motor(self.att, "n", "m")
-        self.motor_left = attiny.Motor(self.att, "o", "p")
+        self.motor_left = attiny.Motor(self.att, "p", "o")
 
     def init_camera(self, camera_id):
         cam_width = self.cam_width = 640
@@ -39,7 +39,7 @@ class Billy:
         indices_y = numpy.tile(range(cam_width),[cam_width,1]).transpose()
         indices_y = indices_y[0:cam_height,0:cam_width]
         cv.NamedWindow("camera", camera_id)
-        self.capture = cv.CaptureFromCAM(0)
+        self.capture = cv.CaptureFromCAM(camera_id)
         self.cam_initialised = True
 
     def get_frame(self):
@@ -86,6 +86,10 @@ if __name__ == "__main__":
     billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
     billy.init_camera(1)
 
+    indices_x = numpy.tile(range(billy.cam_width),[billy.cam_height,1])
+    indices_y = numpy.tile(range(billy.cam_width),[billy.cam_width,1]).transpose()
+    indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
+
     while True:
         img = billy.get_frame()
 
@@ -96,24 +100,33 @@ if __name__ == "__main__":
         cv.Split(hsv, hue, None, None, None)
         img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
 
-        cv2.cv.InRangeS(hsv, cv.Scalar(70, 100, 0), cv.Scalar(95, 160, 255), img_thresh)
+        cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 160, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
 
         x,y = find_centroid(img_thresh, billy.cam_width, billy.cam_height)
         
         print "CENTROID", x,y
         draw_crosshairs(x,y, img_thresh)
         
-        if x > 280:
-            billy.motor_right.setSpeed(40)
-            billy.motor_left.setSpeed(-40)
-        elif x < 220:
-            billy.motor_right.setSpeed(-40)
-            billy.motor_left.setSpeed(40)
-        else:
-            billy.motor_right.setSpeed(40)
-            billy.motor_left.setSpeed(40)
 
-        cv.ShowImage("camera", img_thresh)
+        if y > 440:
+            billy.motor_right.setSpeed(100)
+            billy.motor_left.setSpeed(-100)
+            time.sleep(0.2)
+            billy.motor_left.setSpeed(0)
+            billy.motor_right.setSpeed(0)
+            time.sleep(0.2)
+        elif y < 340:
+            billy.motor_right.setSpeed(-100)
+            billy.motor_left.setSpeed(100)
+            time.sleep(0.2)
+            billy.motor_left.setSpeed(0)
+            billy.motor_right.setSpeed(0)
+            time.sleep(0.2)
+        else:
+            billy.motor_right.setSpeed(180)
+            billy.motor_left.setSpeed(180)
+
+        cv.ShowImage("camera", img_thresh  )
         if cv.WaitKey(10) == 27:
             break
     cv.DestroyAllWindows()
