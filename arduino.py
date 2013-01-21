@@ -342,7 +342,7 @@ class Motor:
         elif speed > 126:
             speed = 126
         # Modify the -126 to 127 range to be 0 to 255 for the Arduino
-        speed = speed % 255
+        speed = speed % 100
         self.arduino.setMotorSpeed(self.index, speed)
 
 class Stepper:
