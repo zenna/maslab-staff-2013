@@ -29,6 +29,7 @@ class Billy:
         self.ard.run()  # Start the Arduino communication thread
 
     def init_attiny(self, port):
+        #iniitalise attiny microprocessor (arduino alternative)
         self.att = attiny.ATtiny(port)
         self.motor_right = attiny.Motor(self.att, "n", "m")
         self.motor_left = attiny.Motor(self.att, "p", "o")
@@ -90,6 +91,7 @@ def draw_crosshairs(x,y, img):
                line_type, 0)
 
 
+# error is distance of centroid from centre of vision
 def position_error(x,y):
     return y - 300
 
@@ -108,6 +110,7 @@ if __name__ == "__main__":
     billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
     billy.init_camera(1)
 
+    # Indices used for calculating the centroid
     indices_x = numpy.tile(range(billy.cam_width),[billy.cam_height,1])
     indices_y = numpy.tile(range(billy.cam_width),[billy.cam_width,1]).transpose()
     indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
@@ -125,11 +128,11 @@ if __name__ == "__main__":
         img = billy.get_frame()
         time_current = time.time() - zero_time
 
-        # Convert to HSV
+        # Convert from BGR to HSV
         hsv = cv.CreateImage(cv.GetSize(img), 8, 3)
         cv.CvtColor(img, hsv, cv.CV_BGR2HSV)
-        hue = cv.CreateImage(cv.GetSize(img), 8, 1)
-        cv.Split(hsv, hue, None, None, None)
+
+        # Threshold the img in hsv space for green
         img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
         cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
 
@@ -147,9 +150,6 @@ if __name__ == "__main__":
         past_errors['timestamps'][-1] = time_current
         derivative_out = find_deriviative(past_errors)
         integral_out = integrate_errors(past_errors)
-
-        # import ipdb
-        # ipdb.set_trace()
 
         controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
         billy.single_value_move(controller_out)
