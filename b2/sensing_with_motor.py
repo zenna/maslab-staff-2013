@@ -45,6 +45,11 @@ class Billy:
         self.capture = cv.CaptureFromCAM(camera_id)
         self.cam_initialised = True
 
+    # Return infra-red value
+    def get_ir(self):
+        return self.a0.getValue()
+
+    # Return camera frame
     def get_frame(self):
         if self.cam_initialised == False:
             self.init_camera()
@@ -106,8 +111,8 @@ def find_deriviative(past_errors):
 if __name__ == "__main__":
 
     billy = Billy()
-    billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
-    billy.init_camera(1)
+    # billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
+    billy.init_camera(0)
 
     # Indices used for calculating the centroid
     indices_x = numpy.tile(range(billy.cam_width),[billy.cam_height,1])
@@ -120,7 +125,7 @@ if __name__ == "__main__":
     derivative_gain = 2
 
     window_size = 1000
-    past_errors = {'errors':np.zeros([stawindow_size]),'timestamps':np.zeros([window_size])}
+    past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
 
     zero_time = time.time()
     while True:
@@ -151,7 +156,7 @@ if __name__ == "__main__":
         integral_out = integrate_errors(past_errors)
 
         controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
-        billy.single_value_move(controller_out)
+        # billy.single_value_move(controller_out)
 
         cv.ShowImage("threshholded", img_thresh  )
         cv.ShowImage("camera", img  )   
