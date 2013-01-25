@@ -99,7 +99,6 @@ def integrate_errors(past_errors):
     integral = scipy.integrate.trapz(past_errors['errors'], past_errors['timestamps'])
     return integral
 
-
 def find_deriviative(past_errors):
     return (past_errors['errors'][-1] - past_errors['errors'][-2]) / (past_errors['timestamps'][-1] - past_errors['timestamps'][-2])
 
@@ -121,7 +120,7 @@ if __name__ == "__main__":
     derivative_gain = 2
 
     window_size = 1000
-    past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
+    past_errors = {'errors':np.zeros([stawindow_size]),'timestamps':np.zeros([window_size])}
 
     zero_time = time.time()
     while True:

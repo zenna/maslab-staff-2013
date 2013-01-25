@@ -1,4 +1,5 @@
 import networkx as nx
+import sys
 
 # This is the main class for the FSM
 
@@ -7,11 +8,11 @@ import networkx as nx
 # a - updating the environment variable from sensor data
 # b - executing the current state
 # c - evaluating transition functions and transitioning state
-class Logical_Network:
+class StateMachine:
 	# States are (impure)s ctions which map the environment to true or false
 	transitions = []
 
-	def add_state(state,utility):
+	def add_state(state):
 		pass
 
 	def add_transition(src_state,dst_state,proposition,weight):
@@ -32,11 +33,17 @@ class ThalamicNetwork:
 		network.add_edge(module1, module2)
  
 # Reduce image size
-def shrink_camera(img):
-	return small_img
+def bgr_to_hsv(img):
+	# Convert from BGR to HSV
+	hsv = cv.CreateImage(cv.GetSize(img), 8, 3)
+	cv.CvtColor(img, hsv, cv.CV_BGR2HSV)
+	return hsv
 
 def threshold_green_balls(img):
-	return thresholded_img
+	# Threshold the img in hsv space for green
+	img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
+	cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
+	return img_thresh
 
 def run_brain():
 	#1. Find roots
@@ -50,11 +57,13 @@ def run_brain():
 		# Q1 which
 
 if __name__ == "__main__":
+	billy = Billy()
+	billy.init_attiny(sys.argv[0])
+	billy.init_camera(1)
+
 	thalamus = ThalamicNetwork()
 	thalamus.add_module(shrink_camera)
 	thalamus.add_module(threshold_green_balls)
-	thalamus.link_modules(shrink_camera, threshold_green_balls)
-
-	billy = Billy()
+	thalamus.link_modules(bgr_to_hsv, threshold_green_balls)
 	thalamus.add_module(billy.get_frame)
-	thalamus.link_modules(billy.get_frame, shrink_camera) m,
+	thalamus.link_modules(billy.get_frame, bgr_to_hsv)
