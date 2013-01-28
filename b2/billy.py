@@ -23,9 +23,9 @@ class Billy:
     def init_arduino(self):
         #setup arduino
         self.ard = arduino.Arduino()
-        self.motor_right = arduino.Motor(ard, 0, 42, 9)
-        self.motor_left = arduino.Motor(ard, 0, 48, 8)
-        self.a0 = arduino.AnalogInput(ard, 0)  # Create an analog sensor on pin A0
+        self.motor_right = arduino.Motor(self.ard, 0, 42, 9)
+        self.motor_left = arduino.Motor(self.ard, 0, 48, 8)
+        self.a0 = arduino.AnalogInput(self.ard, 0)  # Create an analog sensor on pin A0
         self.ard.run()  # Start the Arduino communication thread
 
     def init_attiny(self, port):
@@ -96,7 +96,7 @@ def draw_crosshairs(x,y, img):
                line_type, 0)
 
 
-# error is distance of centroid from centre of vision
+# error is distan   ce of centroid from centre of vision
 def position_error(x,y):
     return y - 300
 
