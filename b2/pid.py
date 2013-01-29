@@ -146,7 +146,7 @@ if __name__ == "__main__":
             time.sleep(1)
 
         # cv.ShowImage("threshholded", img_thresh  )
-        cv.ShowImage("camera", img  )   
+        # cv.ShowImage("camera", img  )   
         if cv.WaitKey(10) == 27:
             break
     cv.DestroyAllWindows()
