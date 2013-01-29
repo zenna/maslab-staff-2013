@@ -58,6 +58,12 @@ class Billy:
         self.capture = cv.CaptureFromCAM(camera_id)
         self.cam_initialised = True
 
+    def single_value_move(self, move):
+        print "moving", move
+        baseline_speed = 130
+        self.motor_left.setSpeed(int(baseline_speed+move/2.))
+        self.motor_right.setSpeed(int(baseline_speed-move/2.))
+
     def init_windows(self):
         cv.NamedWindow("camera", 0)
         cv.NamedWindow("threshholded", 1)

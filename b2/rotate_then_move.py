@@ -112,39 +112,39 @@ if __name__ == "__main__":
         draw_crosshairs(x,y, img_thresh)
 
         # Calculate motor out with PID controller
-        error_current = position_error(x,y)
-        np.roll(past_errors['errors'],-1)
-        np.roll(past_errors['timestamps'],-1)
-        past_errors['errors'][-1] = error_current
-        past_errors['timestamps'][-1] = time_current
-        derivative_out = find_deriviative(past_errors)
-        integral_out = integrate_errors(past_errors)
+        # error_current = position_error(x,y)
+        # np.roll(past_errors['errors'],-1)
+        # np.roll(past_errors['timestamps'],-1)
+        # past_errors['errors'][-1] = error_current
+        # past_errors['timestamps'][-1] = time_current
+        # derivative_out = find_deriviative(past_errors)
+        # integral_out = integrate_errors(past_errors)
 
-        controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
-        billy.single_value_move(controller_out)
+        # controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
+        # billy.single_value_move(controller_out)
 
-        # if y < 330:
-        #     print "rotateleft"
-        #     billy.roller.setSpeed(0)
-        #     billy.motor_right.setSpeed(20)
-        #     billy.motor_left.setSpeed(-20)
-        #     time.sleep(.1)
-        #     billy.motor_right.setSpeed(0)
-        #     billy.motor_left.setSpeed(0)
-        # elif y > 470:
-        #     print "rotateright"
-        #     billy.roller.setSpeed(0)
-        #     billy.motor_right.setSpeed(-20)
-        #     billy.motor_left.setSpeed(20)
-        #     time.sleep(.1)
-        #     billy.motor_right.setSpeed(0)
-        #     billy.motor_left.setSpeed(0)
-        # else:
-        #     print "frws"
-        #     billy.roller.setSpeed(-126)
-        #     billy.motor_right.setSpeed(30)
-        #     billy.motor_left.setSpeed(30)
-        #     time.sleep(1)
+        if y < 330:
+            print "rotateleft"
+            billy.roller.setSpeed(0)
+            billy.motor_right.setSpeed(20)
+            billy.motor_left.setSpeed(-20)
+            time.sleep(.1)
+            billy.motor_right.setSpeed(0)
+            billy.motor_left.setSpeed(0)
+        elif y > 470:
+            print "rotateright"
+            billy.roller.setSpeed(0)
+            billy.motor_right.setSpeed(-20)
+            billy.motor_left.setSpeed(20)
+            time.sleep(.1)
+            billy.motor_right.setSpeed(0)
+            billy.motor_left.setSpeed(0)
+        else:
+            print "frws"
+            billy.roller.setSpeed(-126)
+            billy.motor_right.setSpeed(30)
+            billy.motor_left.setSpeed(30)
+            time.sleep(1)
 
         # cv.ShowImage("threshholded", img_thresh  )
         # cv.ShowImage("camera", img  )   
