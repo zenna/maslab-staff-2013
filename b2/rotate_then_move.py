@@ -84,6 +84,12 @@ if __name__ == "__main__":
     past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
 
     zero_time = time.time()
+    # zero_time = time.time()
+    while True:
+        print "waiting"
+        if billy.do_reset() == True:
+            break
+
 
     while True:
         img = billy.get_frame()
