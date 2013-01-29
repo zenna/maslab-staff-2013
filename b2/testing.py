@@ -2,6 +2,14 @@ import sys
 sys.path.append("..")
 import time
 
+import sys    
+
+def prog():    
+    char = ""     
+    while char != "/":    
+        char = sys.stdin.read(1)    
+        return char
+
 from billy import *
 
 import arduino
@@ -53,3 +61,14 @@ billy.roller.setSpeed(0)
 # 	turn_left(1.0)
 # 	turn_right(1.0)
 # 	go_fwd(1.0)
+
+while True:
+	char = prog()
+	if char == "a":
+		turn_left(1)
+	elif char == "d"
+		turn_right(1)
+	elif char == "w"
+		go_bkwd(1)
+	elif char == "s"
+		go_fwd(1)
