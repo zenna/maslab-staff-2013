@@ -12,22 +12,22 @@ motor_right = arduino.Motor(ard, 0, 38, 10, True)
 roller = arduino.Motor(ard, 0, 48, 8, True)
 ard.run() # Start the Arduino communication thread
 
-def go_fwd(time):
+def go_fwd(time_to_move):
 	motor_left.setSpeed(50)
 	motor_right.setSpeed(50)
 	time.sleep(time)
 
-def go_bkwd(time):
+def go_bkwd(time_to_move):
 	motor_left.setSpeed(-50)
 	motor_right.setSpeed(-50)
 	time.sleep(time)
 
-def turn_left(time):
+def turn_left(time_to_move):
 	motor_left.setSpeed(50)
 	motor_right.setSpeed(-50)
 	time.sleep(time)
 
-def turn_right(time):
+def turn_right(time_to_move):
 	motor_left.setSpeed(-50)
 	motor_right.setSpeed(50)
 	time.sleep(time)
