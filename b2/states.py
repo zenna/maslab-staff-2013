@@ -2,19 +2,11 @@ import sys
 import billy
 from collections import defaultdict
 
-import cv2
-import cv2.cv as cv
-import time
-import numpy as np
-import random
-import time
-
 # How to do things that require a time delay, without blocking everything else
 # How to return to inital state
 # How to implement memory, for PID controller
 
 # How to paramterise these things for learning
-# 
 
 # This is the main class for the FSM
 class StateMachine:
@@ -29,6 +21,7 @@ class StateMachine:
 		self.current_state_id = None
 
 	def add_state(self, state, state_id):
+		state.id = state_id
 		self.states[state_id] = state 
 
 	def set_current_state(self, state_id):
@@ -57,25 +50,34 @@ class StateMachine:
 			print "NO CURRENT STATE"
 			return
 		
-		new_state = self.check_propositions(self.current_state_id, env)
-		self.set_current_state(new_state)
-		self.states[self.current_state_id](self.actuators, **env)
+		self.states[self.current_state_id].init()
+		self.states[self.current_state_id].code(self.actuators, **env)
+		do_transition, dst_state_id = self.states[self.current_state_id].check_propagations(env)
+		if do_transition == True:
+			print "doing transition"
+			self.switch_states(self.current_state_id, dst_state_id)
 
-	def run_serial(self):
-		# A serial (not parallel) version of main loop to run
-		# In sequence we update input to state machines
-		# Perform state machine transitions
-		# run state machines
-		while True:
-			self.update_state_machine_inputs()
-			for state_machine_id, state_machine in self.state_machines.items():
-				#Step state machine with the current values from thalamic network
-				state_machine.step(self.current_values[state_machine_id])
+	def switch_states(self, current_state_id, next_state_id):
+		self.current_state_id = next_state_id
+		self.states[next_state_id].rcvd_msg = self.states[current_state_id].memory
 
 class State:
-	def __init__(self):
+	def __init__(self, init, code, propagators):
 		self.memory = {}
-		self.propogators = []
-		self.code = None
+		self.rcvd_msg = {}
+		self.propagators = propagators
+		self.init = init
+		self.code = code
 
-	def 
+	def add_propagator(self, propagator):
+		propagators.append(propagator)
+
+	def check_propagations(self, env):
+		for propagator in self.propagators:
+			# import ipdb
+			# ipdb.set_trace()
+			make_transition = propagator['proposition'](self.rcvd_msg, **env)
+			if make_transition == True:
+				return True, propagator['dst_state_id']
+
+		return False, self.id

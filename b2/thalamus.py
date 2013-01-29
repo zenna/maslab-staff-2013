@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 class ThalamicNetwork:
 	def __init__(self):
 		self.state_machines = {}
@@ -35,3 +37,14 @@ class ThalamicNetwork:
 				temp_current_values[state_machine_id][parent['dst_arg_name']] = value
 
 		self.current_values = temp_current_values
+
+	def run_serial(self):
+		# A serial (not parallel) version of main loop to run
+		# In sequence we update input to state machines
+		# Perform state machine transitions
+		# run state machines
+		while True:
+			self.update_state_machine_inputs()
+			for state_machine_id, state_machine in self.state_machines.items():
+				#Step state machine with the current values from thalamic network
+				state_machine.step(self.current_values[state_machine_id])

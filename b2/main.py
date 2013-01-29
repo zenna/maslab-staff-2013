@@ -1,3 +1,12 @@
+import cv2
+import cv2.cv as cv
+import time
+import numpy as np
+import random
+import time
+
+import billy
+from states import *
 from thalamus import *
 
 # Reduce image size
@@ -23,12 +32,15 @@ def go_bkwd(act,img):
 	# act.motor_left.setSpeed(100)
 	# act.motor_right.setSpeed(-100)
 
-def time_is_even(img):
+def time_is_even(rcvd_msg, img):
 	now = time.time()
 	if int(now) % 20 == 0:
 		return True
 	else:
 		return False
+
+def do_nothing():
+	pass
 
 if __name__ == "__main__":
 	b4 = billy.Billy()
@@ -39,9 +51,13 @@ if __name__ == "__main__":
 	# and these slots are mapped by a separate process to an actuator
 	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right}
 	wheel_controllers = StateMachine(actuators)
-	wheel_controllers.add_state(go_fwd, "go_fwd")
-	wheel_controllers.add_state(go_bkwd, "go_bkwd")
-	wheel_controllers.add_child("go_fwd","go_bkwd", time_is_even)
+
+	propagator = [{"proposition": time_is_even, "dst_state_id": "go_bkwd"}]
+	go_fwd_state = State(do_nothing, go_fwd, propagator)
+	go_bkwd_state = State(do_nothing, go_bkwd, [])
+	
+	wheel_controllers.add_state(go_fwd_state, "go_fwd")
+	wheel_controllers.add_state(go_bkwd_state, "go_bkwd")
 	wheel_controllers.set_current_state("go_fwd")
 
 	thalamus = ThalamicNetwork()
