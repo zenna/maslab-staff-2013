@@ -100,10 +100,10 @@ if __name__ == "__main__":
         # Threshold the img in hsv space for green
         img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
 
-        if billy.in_red_mode() == True():
+        if billy.in_red_mode() == True:
 	        cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
-	    else:
-	    	cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
+	else:
+	    cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
 
         # Find the centroid of the image
         x,y = find_centroid(img_thresh, billy.cam_width, billy.cam_height)
