@@ -84,10 +84,6 @@ if __name__ == "__main__":
     past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
 
     zero_time = time.time()
-    while True:
-    	print "waiting"
-    	if billy.do_reset() == True:
-    		break
 
     while True:
         img = billy.get_frame()
@@ -126,24 +122,24 @@ if __name__ == "__main__":
         if y < 330:
             print "rotateleft"
             billy.roller.setSpeed(0)
-            billy.motor_right.setSpeed(20)
-            billy.motor_left.setSpeed(-20)
+            billy.motor_right.setSpeed(-20)
+            billy.motor_left.setSpeed(20)
             time.sleep(.1)
             billy.motor_right.setSpeed(0)
             billy.motor_left.setSpeed(0)
         elif y > 470:
             print "rotateright"
             billy.roller.setSpeed(0)
-            billy.motor_right.setSpeed(-20)
-            billy.motor_left.setSpeed(20)
+            billy.motor_right.setSpeed(20)
+            billy.motor_left.setSpeed(-20)
             time.sleep(.1)
             billy.motor_right.setSpeed(0)
             billy.motor_left.setSpeed(0)
         else:
             print "frws"
             billy.roller.setSpeed(-126)
-            billy.motor_right.setSpeed(30)
-            billy.motor_left.setSpeed(30)
+            billy.motor_right.setSpeed(-30)
+            billy.motor_left.setSpeed(-30)
             time.sleep(1)
 
         # cv.ShowImage("threshholded", img_thresh  )
