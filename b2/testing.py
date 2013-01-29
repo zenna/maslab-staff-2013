@@ -5,6 +5,8 @@ import time
 import arduino
 
 ard = arduino.Arduino()
+sys.path.append("..")
+
 motor_left = arduino.Motor(ard, 0, 42, 9, True)
 motor_right = arduino.Motor(ard, 0, 38, 10, True)
 roller = arduino.Motor(ard, 0, 48, 8, True)

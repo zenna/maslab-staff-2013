@@ -14,56 +14,7 @@ import arduino
 import attiny
 import scipy.integrate
 
-class Billy:
-    def __init__(self):
-        self.cam_initialised = False
-        self.arduino_initialised = False
-        self.attiny_initialised = False
-
-    def init_arduino(self):
-        #setup arduino
-        self.motor_right = arduino.Motor(ard, 0, 42, 9, False)
-        self.motor_left = arduino.Motor(self.ard, 0, 48, 8, True)
-        self.roller = arduino.Motor(self.ard, 0, 36, 10, True)
-
-        self.a0 = arduino.AnalogInput(self.ard, 0)
-        # Create an analog sensor on pin A0
-        self.color_switch = arduino.DigitalInput(self.ard,31)
-        self.reset_switch = arduino.DigitalInput(self.ard,33)
-        self.ard.run()  # Start the Arduino communication thread
-
-    def init_attiny(self, port):
-        #iniitalise attiny microprocessor (arduino alternative)
-        self.att = attiny.ATtiny(port)
-        self.motor_right = attiny.Motor(self.att, "n", "m")
-        self.motor_left = attiny.Motor(self.att, "p", "o")
-
-    def init_camera(self, camera_id):
-        cam_width = self.cam_width = 640
-        cam_height = self.cam_height = 480
-        indices_x = numpy.tile(range(cam_width),[cam_height,1])
-        indices_y = numpy.tile(range(cam_width),[cam_width,1]).transpose()
-        indices_y = indices_y[0:cam_height,0:cam_width]
-        cv.NamedWindow("camera", 1)
-        # cv.NamedWindow("threshholded", 1)
-        self.capture = cv.CaptureFromCAM(camera_id)
-        self.cam_initialised = True
-
-    # Return infra-red value
-    def get_ir(self):
-        return self.a0.getValue()
-
-    # Return camera frame
-    def get_frame(self):
-        if self.cam_initialised == False:
-            self.init_camera()
-        return cv.QueryFrame(self.capture)
-
-    def single_value_move(self, move):
-        print "moving", move
-        baseline_speed = 130
-        self.motor_left.setSpeed(int(baseline_speed+move/2.))
-        self.motor_right.setSpeed(int(baseline_speed-move/2.))
+from billy import *
 
 # Calculate the centroid of an image
 def find_centroid(img_c, cam_width, cam_height):
@@ -116,7 +67,7 @@ if __name__ == "__main__":
 
     billy = Billy()
     # billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
-    billy.init_camera(1)
+    billy.init_camera(0)
 
     # Indices used for calculating the centroid
     indices_x = numpy.tile(range(billy.cam_width),[billy.cam_height,1])
@@ -164,25 +115,25 @@ if __name__ == "__main__":
 
         if y < 330:
             print "rotateleft"
-            roller.setSpeed(0)
-            m0.setSpeed(-30)
-            m1.setSpeed(-30)
+            billy.roller.setSpeed(0)
+            billy.motor_right.setSpeed(30)
+            billy.motor_left.setSpeed(-30)
             time.sleep(.1)
-            m0.setSpeed(0)
-            m1.setSpeed(0)
+            billy.motor_right.setSpeed(0)
+            billy.motor_left.setSpeed(0)
         elif y > 470:
             print "rotateright"
-            roller.setSpeed(0)
-            m0.setSpeed(30)
-            m1.setSpeed(30)
+            billy.roller.setSpeed(0)
+            billy.motor_right.setSpeed(-30)
+            billy.motor_left.setSpeed(30)
             time.sleep(.1)
-            m0.setSpeed(0)
-            m1.setSpeed(0)
+            billy.motor_right.setSpeed(0)
+            billy.motor_left.setSpeed(0)
         else:
             print "frws"
-            roller.setSpeed(-126)
-            m0.setSpeed(30)
-            m1.setSpeed(-30)
+            billy.roller.setSpeed(-126)
+            billy.motor_right.setSpeed(30)
+            billy.motor_left.setSpeed(30)
             time.sleep(1)
 
         # cv.ShowImage("threshholded", img_thresh  )
