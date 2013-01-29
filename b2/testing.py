@@ -50,3 +50,4 @@ if __name__ == "__main__":
 	go_bkwd(1.0)
 	turn_left(1.0)
 	turn_right(1.0)
+	go_fwd(1.0)
