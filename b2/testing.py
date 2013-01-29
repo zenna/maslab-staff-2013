@@ -45,9 +45,9 @@ def turn_right(time_to_move):
 	motor_right.setSpeed(0)
 
 
-if __name__ == "__main__":
-	go_fwd(1.0)
-	go_bkwd(1.0)
-	turn_left(1.0)
-	turn_right(1.0)
-	go_fwd(1.0)
+# if __name__ == "__main__":
+# 	go_fwd(1.0)
+# 	go_bkwd(1.0)
+# 	turn_left(1.0)
+# 	turn_right(1.0)
+# 	go_fwd(1.0)
