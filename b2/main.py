@@ -36,12 +36,12 @@ def do_nothing():
 
 if __name__ == "__main__":
 	b4 = billy.Billy()
-	b4.init_arduino() #Get serial port for attiny
-	b4.init_camera(1) # Camera id is typically 1
+	# b4.init_arduino() #Get serial port for attiny
+	b4.init_camera(0) # Camera id is typically 1
 
 	# A state machine could have a number of slots it can write to
 	# and these slots are mapped by a separate process to an actuator
-	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right}
+	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller}
 	wheel_controllers = StateMachine(actuators)
 
 	# propagator = [{"proposition": time_is_even, "dst_state_id": "go_bkwd"}]

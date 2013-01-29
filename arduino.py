@@ -332,10 +332,13 @@ class Servo:
 
 # Class to interact with a motor
 class Motor:
-    def __init__(self, arduino, currentPin, directionPin, pwmPin):
+    def __init__(self, arduino, currentPin, directionPin, pwmPin,polarity):
         self.arduino = arduino
         self.index = self.arduino.addMotor(currentPin, directionPin, pwmPin)
+        self.polarity = polarity
     def setSpeed(self, speed):
+        if polarity == False:
+           speed = -speed        
         # Clamp to [-126, 126]
         if speed < -126:
             speed = -126
