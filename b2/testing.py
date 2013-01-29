@@ -21,13 +21,13 @@ def go_bkwd(time):
 	time.sleep(time)
 
 def turn_left(time):
-	motor_left.setSpeed(-50)
+	motor_left.setSpeed(50)
 	motor_right.setSpeed(-50)
 	time.sleep(time)
 
 def turn_right(time):
 	motor_left.setSpeed(-50)
-	motor_right.setSpeed(-50)
+	motor_right.setSpeed(50)
 	time.sleep(time)
 
 if __name__ == "__main__":

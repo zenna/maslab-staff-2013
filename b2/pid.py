@@ -31,7 +31,7 @@ class Billy:
         self.color_switch = arduino.DigitalInput(self.ard,31)
         self.reset_switch = arduino.DigitalInput(self.ard,33)
         self.ard.run()  # Start the Arduino communication thread
-        
+
     def init_attiny(self, port):
         #iniitalise attiny microprocessor (arduino alternative)
         self.att = attiny.ATtiny(port)
@@ -161,6 +161,29 @@ if __name__ == "__main__":
 
         controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
         # billy.single_value_move(controller_out)
+
+        if y < 330:
+            print "rotateleft"
+            roller.setSpeed(0)
+            m0.setSpeed(-30)
+            m1.setSpeed(-30)
+            time.sleep(.1)
+            m0.setSpeed(0)
+            m1.setSpeed(0)
+        elif y > 470:
+            print "rotateright"
+            roller.setSpeed(0)
+            m0.setSpeed(30)
+            m1.setSpeed(30)
+            time.sleep(.1)
+            m0.setSpeed(0)
+            m1.setSpeed(0)
+        else:
+            print "frws"
+            roller.setSpeed(-126)
+            m0.setSpeed(30)
+            m1.setSpeed(-30)
+            time.sleep(1)
 
         # cv.ShowImage("threshholded", img_thresh  )
         cv.ShowImage("camera", img  )   
