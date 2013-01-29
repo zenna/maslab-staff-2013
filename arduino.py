@@ -339,7 +339,7 @@ class Motor:
     def setSpeed(self, speed):
         if polarity == True:
            speed = -speed        
-        Clamp to [-126, 126]
+        #Clamp to [-126, 126]
         if speed < -126:
             speed = -126
         elif speed > 126:
