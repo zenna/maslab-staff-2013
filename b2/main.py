@@ -9,6 +9,8 @@ import billy
 from states import *
 from thalamus import *
 
+from hardwired import *
+
 # Reduce image size
 def bgr_to_hsv(img):
 	# Convert from BGR to HSV
@@ -21,16 +23,6 @@ def threshold_green_balls(img):
 	img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
 	cv2.cv.InRangeS(img, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
 	return img_thresh
-
-def go_fwd(act,img):
-	print "going fwd"
-	# act.motor_left.setSpeed(100)
-	# act.motor_right.setSpeed(100)
-
-def go_bkwd(act,img):
-	print "going bckwd"
-	# act.motor_left.setSpeed(100)
-	# act.motor_right.setSpeed(-100)
 
 def time_is_even(rcvd_msg, img):
 	now = time.time()
@@ -45,20 +37,20 @@ def do_nothing():
 if __name__ == "__main__":
 	b4 = billy.Billy()
 	b4.init_arduino() #Get serial port for attiny
-	b4.init_camera(0) # Camera id is typically 1
+	b4.init_camera(1) # Camera id is typically 1
 
 	# A state machine could have a number of slots it can write to
 	# and these slots are mapped by a separate process to an actuator
 	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right}
 	wheel_controllers = StateMachine(actuators)
 
-	propagator = [{"proposition": time_is_even, "dst_state_id": "go_bkwd"}]
-	go_fwd_state = State(do_nothing, go_fwd, propagator)
-	go_bkwd_state = State(do_nothing, go_bkwd, [])
+	# propagator = [{"proposition": time_is_even, "dst_state_id": "go_bkwd"}]
+	# go_fwd_state = State(do_nothing, go_fwd, propagator)
+	# go_bkwd_state = State(do_nothing, go_bkwd, [])
 	
-	wheel_controllers.add_state(go_fwd_state, "go_fwd")
-	wheel_controllers.add_state(go_bkwd_state, "go_bkwd")
-	wheel_controllers.set_current_state("go_fwd")
+	wheel_controllers.add_state(ready_state, "ready")
+	wheel_controllers.add_state(explore_state, "explore")
+	wheel_controllers.set_current_state("ready")
 
 	thalamus = ThalamicNetwork()
 

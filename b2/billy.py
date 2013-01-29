@@ -55,6 +55,9 @@ class Billy:
             self.init_camera()
         return cv.QueryFrame(self.capture)
 
+    def show_frame(self):
+        cv.ShowImage("camera", self.get_frame()) 
+
     def single_value_move(self, move):
         print "moving", move
         baseline_speed = 130
@@ -62,7 +65,7 @@ class Billy:
         self.motor_right.setSpeed(int(baseline_speed-move/2.))
 
 # Calculate the centroid of an image
-def find_centroid(img_c, cam_width, cam_height):
+def find_centroid(img_c, cam_width, cam_height, indices_x, indices_y):
     img = numpy.asarray(img_c[0:cam_height,0:cam_width]) / 255.0
     total_weight = numpy.sum(img)
     x = numpy.sum(numpy.sum(img * indices_x,0))
@@ -107,59 +110,12 @@ def integrate_errors(past_errors):
 def find_deriviative(past_errors):
     return (past_errors['errors'][-1] - past_errors['errors'][-2]) / (past_errors['timestamps'][-1] - past_errors['timestamps'][-2])
 
-
 if __name__ == "__main__":
+    cv.WaitKey(10)
 
     billy = Billy()
-    # billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
-    billy.init_camera(0)
+    billy.init_camera(1)
+    # while True:
+    billy.show_frame()
 
-    # Indices used for calculating the centroid
-    indices_x = numpy.tile(range(billy.cam_width),[billy.cam_height,1])
-    indices_y = numpy.tile(range(billy.cam_width),[billy.cam_width,1]).transpose()
-    indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
-
-    #PID controller, tuning params:
-    proportional_gain = .2
-    integral_gain = .01
-    derivative_gain = 2
-
-    window_size = 1000
-    past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
-
-    zero_time = time.time()
-    while True:
-        img = billy.get_frame()
-        time_current = time.time() - zero_time
-
-        # Convert from BGR to HSV
-        hsv = cv.CreateImage(cv.GetSize(img), 8, 3)
-        cv.CvtColor(img, hsv, cv.CV_BGR2HSV)
-
-        # Threshold the img in hsv space for green
-        img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
-        cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
-
-        # Find the centroid of the image
-        x,y = find_centroid(img_thresh, billy.cam_width, billy.cam_height)
-    
-        print "CENTROID", x,y
-        draw_crosshairs(x,y, img_thresh)
-
-        # Calculate motor out with PID controller
-        error_current = position_error(x,y)
-        np.roll(past_errors['errors'],-1)
-        np.roll(past_errors['timestamps'],-1)
-        past_errors['errors'][-1] = error_current
-        past_errors['timestamps'][-1] = time_current
-        derivative_out = find_deriviative(past_errors)
-        integral_out = integrate_errors(past_errors)
-
-        controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
-        # billy.single_value_move(controller_out)
-
-        cv.ShowImage("threshholded", img_thresh  )
-        cv.ShowImage("camera", img  )   
-        if cv.WaitKey(10) == 27:
-            break
-    cv.DestroyAllWindows()
+    # cv.DestroyAllWindows()    

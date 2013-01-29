@@ -19,6 +19,7 @@ class StateMachine:
 		# to a list of pairs: [child_id, proposition]
 		self.children = defaultdict(list)
 		self.current_state_id = None
+		self.global_memory = {}
 
 	def add_state(self, state, state_id):
 		state.id = state_id
@@ -50,9 +51,10 @@ class StateMachine:
 			print "NO CURRENT STATE"
 			return
 		
-		self.states[self.current_state_id].init()
-		self.states[self.current_state_id].code(self.actuators, **env)
-		do_transition, dst_state_id = self.states[self.current_state_id].check_propagations(env)
+		# self.states[self.current_state_id].init()
+		current_state = self.states[self.current_state_id]
+		current_state.code(self.global_memory, current_state.memory, self.actuators, env)
+		do_transition, dst_state_id = current_state.check_propagations(self.global_memory, env)
 		if do_transition == True:
 			print "doing transition"
 			self.switch_states(self.current_state_id, dst_state_id)
@@ -62,21 +64,20 @@ class StateMachine:
 		self.states[next_state_id].rcvd_msg = self.states[current_state_id].memory
 
 class State:
-	def __init__(self, init, code, propagators):
+	def __init__(self, code, propagators):
 		self.memory = {}
 		self.rcvd_msg = {}
 		self.propagators = propagators
-		self.init = init
 		self.code = code
 
 	def add_propagator(self, propagator):
 		propagators.append(propagator)
 
-	def check_propagations(self, env):
+	def check_propagations(self, global_memory, env):
 		for propagator in self.propagators:
 			# import ipdb
 			# ipdb.set_trace()
-			make_transition = propagator['proposition'](self.rcvd_msg, **env)
+			make_transition = propagator['proposition'](global_memory, self.memory, self.rcvd_msg, env)
 			if make_transition == True:
 				return True, propagator['dst_state_id']
 
