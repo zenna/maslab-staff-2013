@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../..")
+sys.path.append("..")
 import time
 
 import arduino
@@ -15,22 +15,22 @@ ard.run() # Start the Arduino communication thread
 def go_fwd(time_to_move):
 	motor_left.setSpeed(50)
 	motor_right.setSpeed(50)
-	time.sleep(time)
+	time.sleep(time_to_move)
 
 def go_bkwd(time_to_move):
 	motor_left.setSpeed(-50)
 	motor_right.setSpeed(-50)
-	time.sleep(time)
+	time.sleep(time_to_move)
 
 def turn_left(time_to_move):
 	motor_left.setSpeed(50)
 	motor_right.setSpeed(-50)
-	time.sleep(time)
+	time.sleep(time_to_move)
 
 def turn_right(time_to_move):
 	motor_left.setSpeed(-50)
 	motor_right.setSpeed(50)
-	time.sleep(time)
+	time.sleep(time_to_move)
 
 if __name__ == "__main__":
 	go_fwd(1)
