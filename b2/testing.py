@@ -42,7 +42,7 @@ def turn_right(time_to_move):
 
 
 if __name__ == "__main__":
-	go_fwd(1)
-	go_bkwd(1)
-	turn_left(1)
-	turn_right(1)
+	go_fwd(1.0)
+	go_bkwd(1.0)
+	turn_left(1.0)
+	turn_right(1.0)
