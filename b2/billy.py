@@ -55,10 +55,12 @@ class Billy:
         indices_x = numpy.tile(range(cam_width),[cam_height,1])
         indices_y = numpy.tile(range(cam_width),[cam_width,1]).transpose()
         indices_y = indices_y[0:cam_height,0:cam_width]
-        cv.NamedWindow("camera", 0)
-        cv.NamedWindow("threshholded", 1)
         self.capture = cv.CaptureFromCAM(camera_id)
         self.cam_initialised = True
+
+    def init_windows(self):
+        cv.NamedWindow("camera", 0)
+        cv.NamedWindow("threshholded", 1)
 
     # Return infra-red value
     def get_ir(self):
