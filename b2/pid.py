@@ -68,6 +68,7 @@ if __name__ == "__main__":
     billy = Billy()
     # billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
     billy.init_camera(0)
+    billy.init_arduino()
 
     # Indices used for calculating the centroid
     indices_x = numpy.tile(range(billy.cam_width),[billy.cam_height,1])
