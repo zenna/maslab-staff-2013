@@ -33,9 +33,9 @@ class Billy:
     def init_arduino(self):
         #setup arduino
         self.ard = arduino.Arduino()
-        self.motor_right = arduino.Motor(self.ard, 0, 42, 9, False)
-        self.motor_left = arduino.Motor(self.ard, 0, 48, 8, True)
-        self.roller = arduino.Motor(self.ard, 0, 36, 10, True)
+        self.roller = arduino.Motor(self.ard, 0, 42, 9, False)
+        self.motor_left = arduino.Motor(self.ard, 0, 48, 8, False)
+        self.motor_right = arduino.Motor(self.ard, 0, 36, 10, True)
 
         self.a0 = arduino.AnalogInput(self.ard, 0)
         # Create an analog sensor on pin A0
