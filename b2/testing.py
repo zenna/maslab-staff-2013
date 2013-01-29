@@ -16,21 +16,30 @@ def go_fwd(time_to_move):
 	motor_left.setSpeed(50)
 	motor_right.setSpeed(50)
 	time.sleep(time_to_move)
+	motor_left.setSpeed(0)
+	motor_right.setSpeed(0)
 
 def go_bkwd(time_to_move):
 	motor_left.setSpeed(-50)
 	motor_right.setSpeed(-50)
 	time.sleep(time_to_move)
+	motor_left.setSpeed(0)
+	motor_right.setSpeed(0)
 
 def turn_left(time_to_move):
 	motor_left.setSpeed(50)
 	motor_right.setSpeed(-50)
 	time.sleep(time_to_move)
+	motor_left.setSpeed(0)
+	motor_right.setSpeed(0)
 
 def turn_right(time_to_move):
 	motor_left.setSpeed(-50)
 	motor_right.setSpeed(50)
 	time.sleep(time_to_move)
+	motor_left.setSpeed(0)
+	motor_right.setSpeed(0)
+
 
 if __name__ == "__main__":
 	go_fwd(1)
