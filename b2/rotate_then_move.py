@@ -137,7 +137,7 @@ if __name__ == "__main__":
             billy.motor_left.setSpeed(0)
         else:
             print "frws"
-            billy.roller.setSpeed(-100)
+            billy.roller.setSpeed(120)
             billy.motor_right.setSpeed(30)
             billy.motor_left.setSpeed(30)
             time.sleep(1)
