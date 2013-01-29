@@ -1,4 +1,4 @@
-#!/usr/bin/pyth
+#!/usr/bin/python
 
 import cv2
 import cv2.cv as cv
@@ -70,7 +70,7 @@ class Billy:
             self.init_camera()
         return cv.QueryFrame(self.capture)
 
-    def in_green_mode(self):
+    def in_red_mode(self):
         return self.color_switch.getValue()
 
     def do_reset(self):
