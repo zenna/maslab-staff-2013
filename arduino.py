@@ -337,7 +337,7 @@ class Motor:
         self.index = self.arduino.addMotor(currentPin, directionPin, pwmPin)
         self.polarity = polarity
     def setSpeed(self, speed):
-        if polarity == True:
+        if self.polarity == True:
            speed = -speed        
         #Clamp to [-126, 126]
         if speed < -126:
