@@ -31,7 +31,7 @@ class ThalamicNetwork:
 		# Then call this function with arguments, 
 		return self.modulators[modulator_id](**kwargs)
 
-	def pull_value(self, arg_name):
+	def pull_value(self, state_machine_id, arg_name):
 		for parent in self.parents[state_machine_id]:
 			if parent["dst_arg_name"] == arg_name:
 				value = self.evaluate_modulator(parent["src_node_id"])
