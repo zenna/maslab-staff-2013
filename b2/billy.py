@@ -78,7 +78,7 @@ class Billy:
         self.motor_right.setSpeed(self.motor_right_speed)
 
     def init_windows(self):
-        cv.NamedWindow("camera", 0)
+        cv.NamedWindow("camera", 1)
         cv.NamedWindow("threshholded", 1)
 
     # Return infra-red value

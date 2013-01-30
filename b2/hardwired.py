@@ -50,10 +50,6 @@ def ready_state(global_mem, local_mem, act, env):
 	# This state initialises memory and gets ready for the button press
 	print "In ready state"
 	stop_wheels(act)
-
-	import ipdb
-	ipdb.set_trace()
-
 	if "initialised" not in local_mem:
 		global_mem['start_time'] = time.time()
 		#PID controller, tuning params:
