@@ -31,16 +31,13 @@ class ThalamicNetwork:
 		# Then call this function with arguments, 
 		return self.modulators[modulator_id](**kwargs)
 
-	def make_pull_value(self, state_machine_id):
-		def pull_value(self, arg_name):
-			for parent in self.parents[state_machine_id]:
-				if parent["dst_arg_name"] == arg_name:
-					value = self.evaluate_modulator(parent["src_node_id"])
-					return value
-			print "ERROR, PULL FAILED"
-			return None
-
-		return pull_value
+	def pull_value(self, arg_name):
+		for parent in self.parents[state_machine_id]:
+			if parent["dst_arg_name"] == arg_name:
+				value = self.evaluate_modulator(parent["src_node_id"])
+				return value
+		print "ERROR, PULL FAILED"
+		return None
 
 	def update_state_machine_inputs(self):
 		#Synchronously update all inputs to statemachnes
@@ -50,7 +47,7 @@ class ThalamicNetwork:
 				value = self.evaluate_modulator(parent['src_node_id'])
 				temp_current_values[state_machine_id][parent['dst_arg_name']] = value
 				#Kind of hack to be able to pull values
-				temp_current_values[state_machine_id]["pull"] = self.make_pull_value(state_machine_id)
+				temp_current_values[state_machine_id]["pull"] = self.pull_value
 
 		self.current_values = temp_current_values
 
