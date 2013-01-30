@@ -70,7 +70,7 @@ class Billy:
         self.cam_initialised = True
 
     def single_value_move(self, adjustment):
-        print "moving", move
+        print "moving", adjustment
         self.motor_left_speed = self.motor_left_speed + adjustment
         self.motor_right_speed = self.motor_right_speed - adjustment
 
