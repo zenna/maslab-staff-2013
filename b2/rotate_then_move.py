@@ -17,7 +17,7 @@ import scipy.integrate
 from billy import *
 
 # Calculate the centroid of an image
-def find_centroid(img_c, cam_width, cam_height):
+# def find_centroid(img_c, cam_width, cam_height):
     img = numpy.asarray(img_c[0:cam_height,0:cam_width]) / 255.0
     total_weight = numpy.sum(img)
     x = numpy.sum(numpy.sum(img * indices_x,0))

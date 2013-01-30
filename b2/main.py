@@ -36,7 +36,8 @@ def do_nothing():
 
 if __name__ == "__main__":
 	b4 = billy.Billy()
-	# b4.init_arduino() #Get serial port for attiny
+	b4.init_arduino() #Get serial port for attiny
+	b4.disable_motors()
 	b4.init_camera(0) # Camera id is typically 1
 
 	# A state machine could have a number of slots it can write to
@@ -44,10 +45,6 @@ if __name__ == "__main__":
 	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller}
 	wheel_controllers = StateMachine(actuators)
 
-	# propagator = [{"proposition": time_is_even, "dst_state_id": "go_bkwd"}]
-	# go_fwd_state = State(do_nothing, go_fwd, propagator)
-	# go_bkwd_state = State(do_nothing, go_bkwd, [])
-	
 	wheel_controllers.add_state(ready_state, "ready")
 	wheel_controllers.add_state(explore_state, "explore")
 	wheel_controllers.set_current_state("ready")
@@ -63,5 +60,6 @@ if __name__ == "__main__":
 	thalamus.link_nodes("get_frame", "bgr_to_hsv", "img")
 	thalamus.link_nodes("bgr_to_hsv", "threshold_green_balls", "img")
 	thalamus.link_nodes("threshold_green_balls", "wheel_controllers", "img")
+	thalamus.link_nodes("get_ir", "wheel_controllers", "ir")
 
 	thalamus.run_serial()

@@ -9,6 +9,9 @@ class ThalamicNetwork:
 	def add_state_machine(self, state_machine, state_machine_id):
 		self.state_machines[state_machine_id] = state_machine
 
+		# Store a reference in each state to its parent
+		state_machine.thalamic_network = self
+
 	def add_modulator(self, modulator, modulator_id):
 		self.modulators[modulator_id] = modulator
 
@@ -28,6 +31,14 @@ class ThalamicNetwork:
 		# Then call this function with arguments, 
 		return self.modulators[modulator_id](**kwargs)
 
+	def pull_value(self, state_machine_id, arg_name):
+		for parent in self.parents[state_machine_id]:
+			if parent["dst_arg_name"] == arg_name:
+				value = self.evaluate_modulator(parent["src_node_id"])
+				return value
+		print "ERROR, PULL FAILED"
+		return None
+
 	def update_state_machine_inputs(self):
 		#Synchronously update all inputs to statemachnes
 		temp_current_values = defaultdict(dict)
@@ -37,6 +48,8 @@ class ThalamicNetwork:
 				temp_current_values[state_machine_id][parent['dst_arg_name']] = value
 
 		self.current_values = temp_current_values
+		#Kind of hack to be able to pull values
+		self.current_values["pull"] = self.pull_value
 
 	def run_serial(self):
 		# A serial (not parallel) version of main loop to run

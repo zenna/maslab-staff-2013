@@ -17,7 +17,7 @@ import scipy.integrate
 from billy import *
 
 # Calculate the centroid of an image
-def find_centroid(img_c, cam_width, cam_height):
+def find_centroid(img_c, cam_width, cam_height, indices_x, indices_y):
     img = numpy.asarray(img_c[0:cam_height,0:cam_width]) / 255.0
     total_weight = numpy.sum(img)
     x = numpy.sum(numpy.sum(img * indices_x,0))
@@ -50,7 +50,6 @@ def draw_crosshairs(x,y, img):
                random.randrange(0, 10),
                line_type, 0)
 
-
 # error is distan   ce of centroid from centre of vision
 def position_error(x,y):
     return y - 400
@@ -76,9 +75,9 @@ if __name__ == "__main__":
     indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
 
     #PID controller, tuning params:
-    proportional_gain = .2
-    integral_gain = .01
-    derivative_gain = 2
+    proportional_gain = .05
+    integral_gain = .02
+    derivative_gain = 2.5
 
     window_size = 1000
     past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}

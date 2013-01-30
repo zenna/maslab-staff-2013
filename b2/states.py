@@ -23,7 +23,10 @@ class StateMachine:
 
 	def add_state(self, state, state_id):
 		state.id = state_id
-		self.states[state_id] = state 
+		self.states[state_id] = state
+
+		# Store a reference in each state to its parent
+		state.state_machine = self
 
 	def set_current_state(self, state_id):
 		if state_id in self.states:

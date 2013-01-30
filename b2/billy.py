@@ -19,7 +19,14 @@ class Billy:
         self.cam_initialised = False
         self.arduino_initialised = False
         self.attiny_initialised = False
-        
+        self.disable_motors()
+
+        #initialisation for pid
+        baseline_speed = 30
+        self.motor_left_speed = baseline_speed
+        self.motor_right_speed = baseline_speed
+
+    def disable_motors(self):
         class FakeMotor():
             def __init__(self, name):
                 self.name = name
@@ -30,10 +37,6 @@ class Billy:
         self.motor_right = FakeMotor("right")
         self.roller = FakeMotor("roller")
 
-        #initialisation for pid
-        baseline_speed = 130
-        self.motor_left_speed = baseline_speed
-        self.motor_right_speed = baseline_speed
 
     def init_arduino(self):
         #setup arduino
@@ -97,39 +100,6 @@ class Billy:
     def show_frame(self):
         cv.ShowImage("camera", self.get_frame())
 
-# Calculate the centroid of an image
-def find_centroid(img_c, cam_width, cam_height, indices_x, indices_y):
-    img = numpy.asarray(img_c[0:cam_height,0:cam_width]) / 255.0
-    total_weight = numpy.sum(img)
-    x = numpy.sum(numpy.sum(img * indices_x,0))
-    y = numpy.sum(numpy.sum(img * indices_y,0))
-    if total_weight != 0:
-        x /= total_weight
-        y /= total_weight
-    return y,x
-
-# Draw crosshairs onto img
-def draw_crosshairs(x,y, img):
-    import random
-    holder = x
-    x = int(y)
-    y = int(holder)
-    icolor = random.randint(0, 0xFFFFFF)
-    colour = cv.Scalar(icolor & 0xff, (icolor >> 8) & 0xff, (icolor >> 16) & 0xff)
-    halfwidth = 10
-    line_type = cv.CV_AA
-    #TODO check line is within image
-    pt1 = (x-halfwidth,y)
-    pt2 = (x+halfwidth,y)
-    cv.Line(img, pt1, pt2,
-               colour,
-               random.randrange(0, 10),
-               line_type, 0)
-    
-    cv.Line(img, (x,y-halfwidth), (x,y+halfwidth),
-               colour,
-               random.randrange(0, 10),
-               line_type, 0)
 
 if __name__ == "__main__":
     cv.WaitKey(10)
