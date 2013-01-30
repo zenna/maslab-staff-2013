@@ -30,15 +30,23 @@ class Billy:
         self.motor_right = FakeMotor("right")
         self.roller = FakeMotor("roller")
 
+        #initialisation for pid
+        baseline_speed = 130
+        self.motor_left_speed = baseline_speed
+        self.motor_right_speed = baseline_speed
+
     def init_arduino(self):
         #setup arduino
         self.ard = arduino.Arduino()
         self.motor_left = arduino.Motor(self.ard, 0, 42, 9, False)
         self.motor_right = arduino.Motor(self.ard, 0, 48, 8, True)
-        self.roller = arduino.Motor(self.ard, 0, 36, 10, True)
-
-        self.a0 = arduino.AnalogInput(self.ard, 0)
+        self.roller = arduino.Motor(self.ard, 0, 36, 10, False)
+        
         # Create an analog sensor on pin A0
+        self.ir_right = arduino.AnalogInput(self.ard, 0)
+        self.ir_centre = arduino.AnalogInput(self.ard, 1)
+        self.ir_left = arduino.AnalogInput(self.ard, 2)
+
         self.color_switch = arduino.DigitalInput(self.ard,31)
         self.reset_switch = arduino.DigitalInput(self.ard,33)
         self.ard.run()  # Start the Arduino communication thread
@@ -58,11 +66,13 @@ class Billy:
         self.capture = cv.CaptureFromCAM(camera_id)
         self.cam_initialised = True
 
-    def single_value_move(self, move):
+    def single_value_move(self, adjustment):
         print "moving", move
-        baseline_speed = 130
-        self.motor_left.setSpeed(int(baseline_speed+move/2.))
-        self.motor_right.setSpeed(int(baseline_speed-move/2.))
+        self.motor_left_speed = self.motor_left_speed + adjustment
+        self.motor_right_speed = self.motor_right_speed - adjustment
+
+        self.motor_left.setSpeed(self.motor_left_speed)
+        self.motor_right.setSpeed(self.motor_right_speed)
 
     def init_windows(self):
         cv.NamedWindow("camera", 0)
@@ -70,7 +80,7 @@ class Billy:
 
     # Return infra-red value
     def get_ir(self):
-        return self.a0.getValue()
+        return self.ir_left.getValue(), self.ir_centre.getValue(), self.ir_right.getValue()
 
     # Return camera frame
     def get_frame(self):
