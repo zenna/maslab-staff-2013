@@ -62,13 +62,13 @@ billy.roller.setSpeed(0)
 # 	turn_right(1.0)
 # 	go_fwd(1.0)
 
-while True:
-	char = prog()
-	if char == "a":
-		turn_left(1)
-	elif char == "d"
-		turn_right(1)
-	elif char == "w"
-		go_bkwd(1)
-	elif char == "s"
-		go_fwd(1)
+# while True:
+# 	char = prog()
+# 	if char == "a":
+# 		turn_left(1)
+# 	elif char == "d"
+# 		turn_right(1)
+# 	elif char == "w"
+# 		go_bkwd(1)
+# 	elif char == "s"
+# 		go_fwd(1)
