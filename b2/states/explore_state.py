@@ -41,9 +41,9 @@ def explore_pid_body(global_mem, local_mem, act, env):
     print "Centroid:", x,y
     draw_crosshairs(x,y, img_thresh)
 
-    # past_errors = global_mem["past_errors"]
-    # error_current = position_error(x,y)
-    # np.roll(past_errors['errors'],-1)
+    past_errors = global_mem["past_errors"]
+    error_current = position_error(x,y)
+    np.roll(past_errors['errors'],-1)
     # np.roll(past_errors['timestamps'],-1)
     # past_errors['errors'][-1] = error_current
     # past_errors['timestamps'][-1] = time_current
