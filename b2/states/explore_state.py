@@ -32,6 +32,7 @@ def explore_body(global_mem, local_mem, act, env):
 #State :  explore, look for balls
 def explore_body_pid(global_mem, local_mem, act, env):
 	# Do one full revolution using IMU
+	time_current = time.time() - global_mem["start_time"]
 	print "exploring"
 	img_thresh = env["sync_value"]["img"]
 
