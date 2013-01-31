@@ -21,6 +21,7 @@ if __name__ == "__main__":
 	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller, "latch": b4.latch, "spool": b4.spool}
 	wheel_controllers = StateMachine(actuators)
 	wheel_controllers.add_state(ready_state.ready_state, "ready")
+	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
 	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")
 	wheel_controllers.set_current_state("ready")

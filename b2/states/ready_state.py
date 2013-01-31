@@ -28,12 +28,6 @@ def ready_body(global_mem, local_mem, act, env):
 		indices_y = np.tile(range(cam_width),[cam_width,1]).transpose()
 		global_mem["indices_y"] = indices_y[0:cam_height,0:cam_width]
 
-def am_init(global_memory, local_memory, rcvd_msg, env):
-	if "initialised" in local_memory and local_memory['initialised'] == True:
-		return True
-	else:
-		return False
-
 def reset_switch_down(global_mem, local_mem, rcvd_msg, env):
 	if env["sync_value"]["do_reset"] == True:
 		return True
@@ -44,5 +38,5 @@ def ready_prop(global_memory, local_memory, rcvd_msg, env):
 	return am_init(global_memory, local_memory, rcvd_msg, env) and reset_switch_down(global_memory, local_memory, rcvd_msg, env)
 
 # ready -> explore
-ready_propagators = [{'proposition':ready_prop, 'dst_state_id':"explore"}]
+ready_propagators = [{'proposition':ready_prop, 'dst_state_id':"find_ball"}]
 ready_state = State(ready_body, ready_propagators)

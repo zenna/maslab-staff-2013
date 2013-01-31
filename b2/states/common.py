@@ -12,6 +12,12 @@ def time_over(global_mem, local_memory, rcvd_msg, env):
 go_to_ready = {'proposition':time_over, 'dst_state_id':"ready_state"}
 no_propagators = []
 
+def am_init(global_memory, local_memory, rcvd_msg, env):
+	if "initialised" in local_memory and local_memory['initialised'] == True:
+		return True
+	else:
+		return False
+
 ## COMMON functions
 def go_fwd(act, speed):
 	act["motor_left"].setSpeed(speed)

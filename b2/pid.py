@@ -52,7 +52,7 @@ def draw_crosshairs(x,y, img):
 
 # error is distan   ce of centroid from centre of vision
 def position_error(x,y):
-    return y - 500
+    return y - 300
 
 def integrate_errors(past_errors):
     integral = scipy.integrate.trapz(past_errors['errors'], past_errors['timestamps'])

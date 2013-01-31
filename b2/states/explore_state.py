@@ -78,5 +78,7 @@ def explore_compass_body(global_mem, local_mem, act, env):
 	# turn_to_orient(act, env, orient_most_dist, 20)
 	# time.sleep(5)
 
+find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
+find_ball_state = State(explore_body,find_ball_prop)
 explore_state = State(explore_pid_body, no_propagators)
 # explore_propagators = [go_to_ready, go_to_avoid_wall]
