@@ -152,7 +152,9 @@ if __name__ == "__main__":
             #     billy.motor_left.setSpeed(30)
             #     time.sleep(1)
 
-            if time_current > 10:
+            if time_current > 5:
+                billy.motor_right.setSpeed(0)
+                billy.motor_left.setSpeed(0)
                 char = gch()
                 if char == "q":
                     proportional_gain *= 1.1
@@ -174,7 +176,7 @@ if __name__ == "__main__":
             cv.ShowImage("camera", img  )   
             if cv.WaitKey(10) == 27:
                 break
-    except (KeyboardInterrupt, SystemExit):
+    except ():
         billy.motor_left.setSpeed(0)
         billy.motor_right.setSpeed(0)
         cv.DestroyAllWindows()
