@@ -50,4 +50,13 @@ if __name__ == "__main__":
 	thalamus.link_nodes("do_reset", "wheel_controllers", "do_reset")
 	thalamus.link_nodes("in_red_mode", "wheel_controllers", "in_red_mode")
 
-	thalamus.run_serial()
+	try:
+		thalamus.run_serial()
+	except (KeyboardInterrupt, SystemExit):
+	    b4.motor_left.setSpeed(0)
+	    b4.motor_right.setSpeed(0)
+	    b4.spool.setSpeed(0)
+	    b4.latch.setAngle(90)
+	    cv.DestroyAllWindows()
+	    exit()
+	    raise
