@@ -8,7 +8,7 @@ import arduino
 # control a servo.
 
 ard = arduino.Arduino()
-servo = arduino.Servo(ard, 7)  # Create a Servo object
+servo = arduino.Servo(ard, 12)  # Create a Servo object
 ard.run()  # Run the Arduino communication thread
 
 while True:
@@ -16,9 +16,9 @@ while True:
     for i in range(0, 180, 10):
         servo.setAngle(i)
         print "Angle", i
-        time.sleep(0.1)
-    for i in range(180, 0, -10):
-        servo.setAngle(i)
-        print "Angle", i
-        time.sleep(0.1)
+        time.sleep(0.4)
+    # for i in range(180, 0, -10):
+    #     servo.setAngle(i)
+    #     print "Angle", i
+    #     time.sleep(0.4)
     

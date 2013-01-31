@@ -4,15 +4,21 @@ from state_machine import *
 UNLATCHED_ANGLE = 90
 LATCHED_ANGLE = 140
 def ready_shoot_body(global_memory, local_memory, act, env):
-	act["latch"].set_angle(UNLATCHED_ANGLE)
-	act["spool"].setSpeed(-50)
+	act["spool"].setSpeed(40)
+	time.sleep(1)
+	act["latch"].setAngle(UNLATCHED_ANGLE)
+	act["spool"].setSpeed(-60)
 	time.sleep(1)
 	act["spool"].setSpeed(0)
-	act["latch"].set_angle(LATCHED_ANGLE)
-	act["spool"].setSpeed(50)
-	time.sleep(1.5)
+	act["latch"].setAngle(LATCHED_ANGLE)
+	time.sleep(1)
+	act["spool"].setSpeed(125)
+	time.sleep(3)
 	act["spool"].setSpeed(0)
-	time.sleep(100)
+	time.sleep(.5)
+	act["latch"].setAngle(UNLATCHED_ANGLE)
+	time.sleep(1)
+
 
 def ready_to_shoot(global_memory, local_memory, act, env):
 	pass
