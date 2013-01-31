@@ -5,8 +5,8 @@ from state_machine import *
 def explore_body(global_memory, local_memory, act, env):
 	# Do one full revolution using IMU
 	print "exploring"
-	id = env["sync_value"]["state_machine_id"]
-	current_orientation = env["pull_value"](env.id,"get_ir")
+	sm_id = env["sync_value"]["state_machine_id"]
+	current_orientation = env["pull_value"](sm_id,"get_ir")
 	import ipdb
 	ipdb.set_trace()
 	turn_left(act, 30)
