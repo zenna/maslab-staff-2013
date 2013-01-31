@@ -30,7 +30,7 @@ def explore_body(global_mem, local_mem, act, env):
 	    time.sleep(10)
 
 #State :  explore, look for balls
-def explore_body_pid(global_mem, local_mem, act, env):
+def explore_pid_body(global_mem, local_mem, act, env):
 	# Do one full revolution using IMU
 	time_current = time.time() - global_mem["start_time"]
 	print "exploring"
@@ -51,9 +51,7 @@ def explore_body_pid(global_mem, local_mem, act, env):
 	controller_out = global_mem["proportional_gain"] * error_current + global_mem["integral_gain"] * integral_out + global_mem["derivative_gain"] * derivative_out
 	move_differential(controller_out,global_mem, act)
 
-	## OLD
-
-
+def explore_compass_body(global_mem, local_mem, act, env):
 	# current_orientation = env["pull_value"](sm_id,"get_imu")[0]
 	# one_eight_deg = (current_orientation + 180) % 360
 
