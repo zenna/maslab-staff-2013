@@ -43,6 +43,7 @@ class ThalamicNetwork:
 		#Synchronously update all inputs to statemachnes
 		temp_current_values = defaultdict(dict)
 		for state_machine_id in self.state_machines.keys():
+			temp_current_values[state_machine_id]["state_machine_id"] = state_machine_id
 			for parent in self.parents[state_machine_id]:
 				value = self.evaluate_modulator(parent['src_node_id'])
 				temp_current_values[state_machine_id][parent['dst_arg_name']] = value
@@ -56,7 +57,7 @@ class ThalamicNetwork:
 		# In sequence we update input to state machines
 		# Perform state machine transitions
 		# run state machines
-		env = {"pull":self.pull_value}
+		env = {"pull_value":self.pull_value}
 		while True:
 			self.update_state_machine_inputs()
 			for state_machine_id, state_machine in self.state_machines.items():

@@ -5,11 +5,12 @@ from state_machine import *
 def explore_body(global_memory, local_memory, act, env):
 	# Do one full revolution using IMU
 	print "exploring"
-	current_orientation = env["pull_value"](self.id,"get_ir")
+	id = env["sync_value"]["state_machine_id"]
+	current_orientation = env["pull_value"](env.id,"get_ir")
 	import ipdb
 	ipdb.set_trace()
 	turn_left(act, 30)
-	while True:
+	# while True:
 
 	# 	go_to_state.
 	# 	if helpers.check_propositions() == True:
