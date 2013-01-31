@@ -44,12 +44,12 @@ def explore_pid_body(global_mem, local_mem, act, env):
     past_errors = global_mem["past_errors"]
     error_current = position_error(x,y)
     np.roll(past_errors['errors'],-1)
-    # np.roll(past_errors['timestamps'],-1)
-    # past_errors['errors'][-1] = error_current
-    # past_errors['timestamps'][-1] = time_current
-    # derivative_out = find_deriviative(past_errors)
-    # integral_out = integrate_errors(past_errors)
-    # controller_out = global_mem["proportional_gain"] * error_current + global_mem["integral_gain"] * integral_out + global_mem["derivative_gain"] * derivative_out
+    np.roll(past_errors['timestamps'],-1)
+    past_errors['errors'][-1] = error_current
+    past_errors['timestamps'][-1] = time_current
+    derivative_out = find_deriviative(past_errors)
+    integral_out = integrate_errors(past_errors)
+    controller_out = global_mem["proportional_gain"] * error_current + global_mem["integral_gain"] * integral_out + global_mem["derivative_gain"] * derivative_out
     controller_out = 0
     # print "PID", controller_out, error_current, integral_out, derivative_out
     move_differential(controller_out,global_mem, act)
