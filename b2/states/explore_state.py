@@ -77,5 +77,5 @@ def explore_compass_body(global_mem, local_mem, act, env):
 	# turn_to_orient(act, env, orient_most_dist, 20)
 	# time.sleep(5)
 
-explore_state = State(explore_body_pid, no_propagators)
+explore_state = State(explore_pid_body, no_propagators)
 # explore_propagators = [go_to_ready, go_to_avoid_wall]
