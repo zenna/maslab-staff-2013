@@ -75,9 +75,9 @@ if __name__ == "__main__":
     indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
 
     #PID controller, tuning params:
-    proportional_gain = .01
+    proportional_gain = .001
     integral_gain = 1
-    derivative_gain = 1
+    derivative_gain = 0.01
 
     from getch import Getch
     gch = Getch()
@@ -127,49 +127,49 @@ if __name__ == "__main__":
             integral_out = integrate_errors(past_errors)
 
             controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
-            billy.single_value_move(controller_out)
+            # billy.single_value_move(controller_out)
 
-            # if y < 330:
-            #     print "rotateleft"
-            #     billy.roller.setSpeed(0)
-            #     billy.motor_right.setSpeed(20)
-            #     billy.motor_left.setSpeed(-20)
-            #     time.sleep(.1)
-            #     billy.motor_right.setSpeed(0)
-            #     billy.motor_left.setSpeed(0)
-            # elif y > 470:
-            #     print "rotateright"
-            #     billy.roller.setSpeed(0)
-            #     billy.motor_right.setSpeed(-20)
-            #     billy.motor_left.setSpeed(20)
-            #     time.sleep(.1)
-            #     billy.motor_right.setSpeed(0)
-            #     billy.motor_left.setSpeed(0)
-            # else:
-            #     print "frws"
-            #     billy.roller.setSpeed(-126)
-            #     billy.motor_right.setSpeed(30)
-            #     billy.motor_left.setSpeed(30)
-            #     time.sleep(1)
-
-            if time_current > 5:
+            if y < 330:
+                print "rotateleft"
+                billy.roller.setSpeed(0)
+                billy.motor_right.setSpeed(20)
+                billy.motor_left.setSpeed(-20)
+                time.sleep(.1)
                 billy.motor_right.setSpeed(0)
                 billy.motor_left.setSpeed(0)
-                char = gch()
-                if char == "q":
-                    proportional_gain *= 1.1
-                elif char == "w":
-                    integral_gain *= 1
-                elif char == "e":
-                    derivative_gain *= 1.1
-                elif char == "a":
-                    proportional_gain *= .9
-                elif char == "s":
-                    integral_gain *= .9
-                elif char == "d":
-                    derivative_gain *= .9
-                zero_time = time.time() 
-                past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
+            elif y > 470:
+                print "rotateright"
+                billy.roller.setSpeed(0)
+                billy.motor_right.setSpeed(-20)
+                billy.motor_left.setSpeed(20)
+                time.sleep(.1)
+                billy.motor_right.setSpeed(0)
+                billy.motor_left.setSpeed(0)
+            else:
+                print "frws"
+                billy.roller.setSpeed(-126)
+                billy.motor_right.setSpeed(30)
+                billy.motor_left.setSpeed(30)
+                time.sleep(1)
+
+            # if time_current > 5:
+            #     billy.motor_right.setSpeed(0)
+            #     billy.motor_left.setSpeed(0)
+            #     char = gch()
+            #     if char == "q":
+            #         proportional_gain *= 1.1
+            #     elif char == "w":
+            #         integral_gain *= 1
+            #     elif char == "e":
+            #         derivative_gain *= 1.1
+            #     elif char == "a":
+            #         proportional_gain *= .9
+            #     elif char == "s":
+            #         integral_gain *= .9
+            #     elif char == "d":
+            #         derivative_gain *= .9
+            #     zero_time = time.time() 
+            #     past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
 
 
             print "GAINS", proportional_gain, derivative_gain, integral_gain
