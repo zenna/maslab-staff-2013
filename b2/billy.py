@@ -43,8 +43,10 @@ class Billy:
         self.ard = arduino.Arduino()
         self.motor_left = arduino.Motor(self.ard, 0, 42, 9, False)
         self.motor_right = arduino.Motor(self.ard, 0, 48, 8, True)
+        self.spool = arduino.Motor(self.ard, 0, 30, 11, False)
         self.roller = arduino.Motor(self.ard, 0, 36, 10, False)
-        
+        self.latch = arduino.Servo(self.ard, 12)  # Create a Servo object
+
         # Create an analog sensor on pin A0
         self.ir_right = arduino.AnalogInput(self.ard, 0)
         self.ir_centre = arduino.AnalogInput(self.ard, 1)
@@ -107,7 +109,6 @@ class Billy:
 
     def show_frame(self):
         cv.ShowImage("camera", self.get_frame())
-
 
 if __name__ == "__main__":
     cv.WaitKey(10)

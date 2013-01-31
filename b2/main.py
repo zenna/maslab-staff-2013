@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
 	# A state machine could have a number of slots it can write to
 	# and these slots are mapped by a separate process to an actuator
-	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller}
+	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller, "latch": b4.latch, "spool": b4.spool}
 	wheel_controllers = StateMachine(actuators)
 	wheel_controllers.add_state(ready_state.ready_state, "ready")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
