@@ -49,6 +49,7 @@ def explore_pid_body(global_mem, local_mem, act, env):
 	derivative_out = find_deriviative(past_errors)
 	integral_out = integrate_errors(past_errors)
 	controller_out = global_mem["proportional_gain"] * error_current + global_mem["integral_gain"] * integral_out + global_mem["derivative_gain"] * derivative_out
+	print "PID", controller_out, error_current, integral_out, derivative_out
 	move_differential(controller_out,global_mem, act)
 
 def explore_compass_body(global_mem, local_mem, act, env):
