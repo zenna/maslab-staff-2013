@@ -33,11 +33,10 @@ def am_init(global_memory, local_memory, rcvd_msg, env):
 		return False
 
 def reset_switch_down(global_mem, local_mem, rcvd_msg, env):
-	if global_mem['y'] > 500:
+	if env["do_reset"] == True:
 		return True
 	else:
 		return False
-	return env.reset_switch_down
 
 def ready_prop(global_memory, local_memory, rcvd_msg, env):
 	return am_init(global_memory, local_memory, rcvd_msg, env) and reset_switch_down(global_memory, local_memory, rcvd_msg, env)

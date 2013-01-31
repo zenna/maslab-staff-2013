@@ -12,7 +12,8 @@ if __name__ == "__main__":
 	b4 = billy.Billy()
 	b4.init_arduino() #Get serial port for attiny
 	b4.disable_motors()
-	b4.init_camera(0) # Camera id is typically 1
+	camera_id = int(sys.argv[1])
+	b4.init_camera(camera_id) # Camera id is typically 1
 
 	# A state machine could have a number of slots it can write to
 	# and these slots are mapped by a separate process to an actuator
@@ -28,11 +29,15 @@ if __name__ == "__main__":
 	thalamus.add_modulator(threshold_green_balls, "threshold_green_balls")
 	thalamus.add_modulator(b4.get_frame, "get_frame")
 	thalamus.add_modulator(bgr_to_hsv, "bgr_to_hsv")
+	thalamus.add_modulator(b4.do_reset, "do_reset")
+	thalamus.add_modulator(b4.in_red_mode, "in_red_mode")
 	thalamus.add_state_machine(wheel_controllers, "wheel_controllers")
 
 	thalamus.link_nodes("get_frame", "bgr_to_hsv", "img")
 	thalamus.link_nodes("bgr_to_hsv", "threshold_green_balls", "img")
 	thalamus.link_nodes("threshold_green_balls", "wheel_controllers", "img")
 	thalamus.link_nodes("get_ir", "wheel_controllers", "ir")
+	thalamus.link_nodes("do_reset", "wheel_controllers", "do_reset")
+	thalamus.link_nodes("in_red_mode", "wheel_controllers", "in_red_mode")
 
 	thalamus.run_serial()
