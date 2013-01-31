@@ -186,8 +186,8 @@ if __name__ == "__main__":
 
             print "GAINS", proportional_gain, derivative_gain, integral_gain
 
-#            cv.ShowImage("threshholded", img_thresh  )
- #           cv.ShowImage("camera", img  )   
+            cv.ShowImage("threshholded", img_thresh  )
+            cv.ShowImage("camera", img  )   
             if cv.WaitKey(10) == 27:
                 break
     except ():

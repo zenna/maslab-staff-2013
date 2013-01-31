@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
 	try:
 		thalamus.run_serial()
-	except (KeyboardInterrupt, SystemExit):
+	except ():
 	    b4.motor_left.setSpeed(0)
 	    b4.motor_right.setSpeed(0)
 	    b4.spool.setSpeed(0)
