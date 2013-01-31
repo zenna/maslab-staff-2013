@@ -1,38 +1,12 @@
-import cv2
-import cv2.cv as cv
-import time
 import numpy as np
 import random
 import time
 
 import billy
-from states import *
+from state_machine import *
 from thalamus import *
-
-from hardwired import *
-
-# Reduce image size
-def bgr_to_hsv(img):
-	# Convert from BGR to HSV
-	hsv = cv.CreateImage(cv.GetSize(img), 8, 3)
-	cv.CvtColor(img, hsv, cv.CV_BGR2HSV)
-	return hsv
-
-def threshold_green_balls(img):
-	# Threshold the img in hsv space for green
-	img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
-	cv2.cv.InRangeS(img, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
-	return img_thresh
-
-def time_is_even(rcvd_msg, img):
-	now = time.time()
-	if int(now) % 20 == 0:
-		return True
-	else:
-		return False
-
-def do_nothing():
-	pass
+from thalamic_modules import *
+from states import ready_state, explore_state
 
 if __name__ == "__main__":
 	b4 = billy.Billy()
@@ -44,9 +18,8 @@ if __name__ == "__main__":
 	# and these slots are mapped by a separate process to an actuator
 	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller}
 	wheel_controllers = StateMachine(actuators)
-
-	wheel_controllers.add_state(ready_state, "ready")
-	wheel_controllers.add_state(explore_state, "explore")
+	wheel_controllers.add_state(ready_state.ready_state, "ready")
+	wheel_controllers.add_state(explore_state.explore_state, "explore")
 	wheel_controllers.set_current_state("ready")
 
 	thalamus = ThalamicNetwork()
