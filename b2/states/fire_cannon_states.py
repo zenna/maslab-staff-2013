@@ -1,8 +1,8 @@
 from common import *
 from state_machine import *
 
-UNLATCHED_ANGLE = 90
-LATCHED_ANGLE = 140
+UNLATCHED_ANGLE = 00
+LATCHED_ANGLE = 110
 def ready_shoot_body(global_memory, local_memory, act, env):
 	act["spool"].setSpeed(40)
 	time.sleep(1)
