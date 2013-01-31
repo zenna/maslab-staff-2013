@@ -12,7 +12,7 @@ def ready_body(global_mem, local_mem, act, env):
 		global_mem["motor_right_speed"] = 0
 		global_mem["motor_left_speed"] = 0
 
-		global_mem["proportional_gain"] = .2
+		global_mem["proportional_gain"] = .05
 		global_mem["integral_gain"] = .01
 		global_mem["derivative_gain"] = 2
 		window_size = 1000	
