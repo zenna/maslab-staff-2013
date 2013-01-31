@@ -3,7 +3,7 @@ from state_machine import *
 from pid import *
 
 #State :  explore, look for balls
-def explore_body(global_memory, local_memory, act, env):
+def explore_body(global_mem, local_mem, act, env):
 	# Do one full revolution using IMU
 	print "exploring"
 	# sm_id = env["sync_value"]["state_machine_id"]
