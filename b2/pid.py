@@ -92,13 +92,13 @@ if __name__ == "__main__":
     # 		break
 
 
-    idc_hl = int(0/360.0*180)
-    idc_sl = int(40.0/100.0*255)
-    idc_vl = int(40.0/100.0*255)
+    idc_hl = int(67)
+    idc_sl = int(100)
+    idc_vl = int(50)
 
-    idc_hh = int(20.0/360.0*180)
-    idc_sh = int(80.0/100.0*255)
-    idc_vh = int(80.0/100.0*255)
+    idc_hh = int(82)
+    idc_sh = int(200)
+    idc_vh = int(180)
 
     idc_red_range = (cv.Scalar(idc_hl,idc_sl,idc_vl), cv.Scalar(idc_hh,idc_sh,idc_vh))
 
@@ -142,28 +142,28 @@ if __name__ == "__main__":
             print "PID", controller_out, error_current, integral_out, derivative_out
             # billy.single_value_move(controller_out)
 
-            if y < 330:
-                print "rotateleft"
-                billy.roller.setSpeed(0)
-                billy.motor_right.setSpeed(20)
-                billy.motor_left.setSpeed(-20)
-                time.sleep(.1)
-                billy.motor_right.setSpeed(0)
-                billy.motor_left.setSpeed(0)
-            elif y > 470:
-                print "rotateright"
-                billy.roller.setSpeed(0)
-                billy.motor_right.setSpeed(-20)
-                billy.motor_left.setSpeed(20)
-                time.sleep(.1)
-                billy.motor_right.setSpeed(0)
-                billy.motor_left.setSpeed(0)
-            else:
-                print "frws"
-                billy.roller.setSpeed(-126)
-                billy.motor_right.setSpeed(30)
-                billy.motor_left.setSpeed(30)
-                time.sleep(1)
+            # if y < 330:
+            #     print "rotateleft"
+            #     billy.roller.setSpeed(0)
+            #     billy.motor_right.setSpeed(20)
+            #     billy.motor_left.setSpeed(-20)
+            #     time.sleep(.1)
+            #     billy.motor_right.setSpeed(0)
+            #     billy.motor_left.setSpeed(0)
+            # elif y > 470:
+            #     print "rotateright"
+            #     billy.roller.setSpeed(0)
+            #     billy.motor_right.setSpeed(-20)
+            #     billy.motor_left.setSpeed(20)
+            #     time.sleep(.1)
+            #     billy.motor_right.setSpeed(0)
+            #     billy.motor_left.setSpeed(0)
+            # else:
+            #     print "frws"
+            #     billy.roller.setSpeed(-126)
+            #     billy.motor_right.setSpeed(30)
+            #     billy.motor_left.setSpeed(30)
+            #     time.sleep(1)
 
             # if time_current > 5:
             #     billy.motor_right.setSpeed(0)
@@ -198,3 +198,4 @@ if __name__ == "__main__":
         exit()
         raise
     cv.DestroyAllWindows()
+
