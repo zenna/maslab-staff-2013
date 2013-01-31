@@ -16,20 +16,16 @@ def explore_body(global_mem, local_mem, act, env):
 
 	if y < 330:
 	    print "rotateleft"
-	    billy.roller.setSpeed(0)
-	    billy.motor_right.setSpeed(20)
-	    billy.motor_left.setSpeed(-20)
+	    act["roller"].setSpeed(0)
+	    turn_left(act)
 	    time.sleep(.1)
-	    billy.motor_right.setSpeed(0)
-	    billy.motor_left.setSpeed(0)
+	    stop_wheels(act)
 	elif y > 470:
 	    print "rotateright"
-	    billy.roller.setSpeed(0)
-	    billy.motor_right.setSpeed(-20)
-	    billy.motor_left.setSpeed(20)
+	    act["roller"].setSpeed(0)
+	    turn_right(act)
 	    time.sleep(.1)
-	    billy.motor_right.setSpeed(0)
-	    billy.motor_left.setSpeed(0)
+	    stop_wheels(act)
 	else:
 	    time.sleep(10)
 
