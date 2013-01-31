@@ -47,7 +47,7 @@ class ThalamicNetwork:
 				value = self.evaluate_modulator(parent['src_node_id'])
 				temp_current_values[state_machine_id][parent['dst_arg_name']] = value
 				#Kind of hack to be able to pull values
-				temp_current_values[state_machine_id]["pull"] = self.pull_value
+				# temp_current_values[state_machine_id]["pull"] = self.pull_value
 
 		self.current_values = temp_current_values
 
@@ -56,8 +56,10 @@ class ThalamicNetwork:
 		# In sequence we update input to state machines
 		# Perform state machine transitions
 		# run state machines
+		env = {"pull":self.pull_value}
 		while True:
 			self.update_state_machine_inputs()
 			for state_machine_id, state_machine in self.state_machines.items():
 				#Step state machine with the current values from thalamic network
-				state_machine.step(self.current_values[state_machine_id])
+				env["sync_value"] = self.current_values[state_machine_id]
+				state_machine.step(env)

@@ -31,12 +31,14 @@ if __name__ == "__main__":
 	thalamus.add_modulator(bgr_to_hsv, "bgr_to_hsv")
 	thalamus.add_modulator(b4.do_reset, "do_reset")
 	thalamus.add_modulator(b4.in_red_mode, "in_red_mode")
+	thalamus.add_modulator(b4.get_imu, "get_imu")
 	thalamus.add_state_machine(wheel_controllers, "wheel_controllers")
 
 	thalamus.link_nodes("get_frame", "bgr_to_hsv", "img")
 	thalamus.link_nodes("bgr_to_hsv", "threshold_green_balls", "img")
 	thalamus.link_nodes("threshold_green_balls", "wheel_controllers", "img")
-	thalamus.link_nodes("get_ir", "wheel_controllers", "ir")
+	thalamus.link_nodes("get_ir", "wheel_controllers", "get_ir")
+	thalamus.link_nodes("get_imu", "wheel_controllers", "get_imu")
 	thalamus.link_nodes("do_reset", "wheel_controllers", "do_reset")
 	thalamus.link_nodes("in_red_mode", "wheel_controllers", "in_red_mode")
 

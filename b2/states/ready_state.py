@@ -33,7 +33,7 @@ def am_init(global_memory, local_memory, rcvd_msg, env):
 		return False
 
 def reset_switch_down(global_mem, local_mem, rcvd_msg, env):
-	if env["do_reset"] == True:
+	if env["sync_value"]["do_reset"] == True:
 		return True
 	else:
 		return False

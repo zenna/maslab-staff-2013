@@ -50,8 +50,13 @@ class Billy:
         self.ir_centre = arduino.AnalogInput(self.ard, 1)
         self.ir_left = arduino.AnalogInput(self.ard, 2)
 
+        # Switches
         self.color_switch = arduino.DigitalInput(self.ard,31)
         self.reset_switch = arduino.DigitalInput(self.ard,33)
+        
+        #IMU
+        self.imu = arduino.IMU(self.ard)
+
         self.ard.run()  # Start the Arduino communication thread
 
     def init_attiny(self, port):
@@ -96,6 +101,9 @@ class Billy:
 
     def do_reset(self):
         return self.reset_switch.getValue()
+
+    def get_imu(self):
+        return self.imu.getRawValues()
 
     def show_frame(self):
         cv.ShowImage("camera", self.get_frame())
