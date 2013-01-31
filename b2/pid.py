@@ -139,6 +139,7 @@ if __name__ == "__main__":
             integral_out = integrate_errors(past_errors)
 
             controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
+            print "PID", controller_out, error_current, integral_out, derivative_out
             # billy.single_value_move(controller_out)
 
             if y < 330:
