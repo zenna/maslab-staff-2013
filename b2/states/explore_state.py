@@ -25,7 +25,7 @@ def explore_body(global_mem, local_mem, act, env):
 	    act["roller"].setSpeed(0)
 	    turn_right(25, act)
 	    time.sleep(.1)
-	    stop_wheel	s(act)
+	    stop_wheels(act)
 	else:
 	    time.sleep(10)
 
