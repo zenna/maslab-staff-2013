@@ -37,6 +37,14 @@ def reset_switch_down(global_mem, local_mem, rcvd_msg, env):
 def ready_prop(global_memory, local_memory, rcvd_msg, env):
 	return am_init(global_memory, local_memory, rcvd_msg, env) and reset_switch_down(global_memory, local_memory, rcvd_msg, env)
 
+def time_up_prop(global_memory, local_memory, rcvd_msg, env):
+	if time.time() - global_mem["start_time"] > 30:
+		return True
+	else:
+		return False
+
 # ready -> explore
 ready_propagators = [{'proposition':ready_prop, 'dst_state_id':"find_ball"}]
 ready_state = State(ready_body, ready_propagators)
+
+time_up_propagator = {'proposition':time_up_prop, "dst_state_id":ready}
