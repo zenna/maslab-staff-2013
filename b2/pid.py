@@ -91,6 +91,18 @@ if __name__ == "__main__":
     # 	if billy.do_reset() == True:
     # 		break
 
+
+    idc_hl = int(0/360.0*180)
+    idc_sl = int(40.0/100.0*255)
+    idc_vl = int(40.0/100.0*255)
+
+    idc_hh = int(20.0/360.0*180)
+    idc_sh = int(80.0/100.0*255)
+    idc_vh = int(80.0/100.0*255)
+
+    idc_red_range = (cv.Scalar(idc_hl,idc_sl,idc_vl), cv.Scalar(idc_hh,idc_sh,idc_vh))
+
+
     try:
         while True:
             img = billy.get_frame()
@@ -107,7 +119,7 @@ if __name__ == "__main__":
             img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
 
             if billy.in_red_mode() == True:
-            	cv2.cv.InRangeS(hsv, cv.Scalar(0, 100, 166), cv.Scalar(25, 220, 192), img_thresh)
+            	cv2.cv.InRangeS(hsv, idc_red_range[0], idc_red_range[1], img_thresh)
             else:
             	cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
 
