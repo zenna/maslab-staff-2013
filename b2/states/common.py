@@ -44,7 +44,9 @@ def turn_to_orient(act, env, orient, speed):
 	current_orientation = env["pull_value"](sm_id,"get_imu")[3]
 	turn_left(act, speed)
 	while True:
-		if abs(env["pull_value"](sm_id,"get_imu")[0] - orient) < 5:
+		curr = abs(env["pull_value"](sm_id,"get_imu")[0] - orient)
+		print "current - to", curr, orient
+		if curr < 10:
 			break
 
 # ## Don't get stuck state!

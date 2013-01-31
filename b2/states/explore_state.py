@@ -7,7 +7,7 @@ def explore_body(global_memory, local_memory, act, env):
 	print "exploring"
 	sm_id = env["sync_value"]["state_machine_id"]
 	current_orientation = env["pull_value"](sm_id,"get_imu")[0]
-	one_eight_deg = (current_orientation + 128) % 256
+	one_eight_deg = (current_orientation + 180) % 360
 
 	import ipdb
 	ipdb.set_trace()
