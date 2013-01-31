@@ -52,7 +52,7 @@ def draw_crosshairs(x,y, img):
 
 # error is distan   ce of centroid from centre of vision
 def position_error(x,y):
-    return y - 400
+    return y - 500
 
 def integrate_errors(past_errors):
     integral = scipy.integrate.trapz(past_errors['errors'], past_errors['timestamps'])
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     billy = Billy()
     # billy.init_attiny("/dev/serial/by-id/usb-FTDI_TTL232R_FTFBGOT5-if00-port0")
-    billy.init_camera(0)
+    billy.init_camera(1)
     billy.init_arduino()
 
     # Indices used for calculating the centroid
@@ -105,7 +105,7 @@ if __name__ == "__main__":
         	cv2.cv.InRangeS(hsv, cv.Scalar(180*145/360, 100, 84), cv.Scalar(180*165/360, 220, 255), img_thresh)
 
         # Find the centroid of the image
-        x,y = find_centroid(img_thresh, billy.cam_width, billy.cam_height)
+        x,y = find_centroid(img_thresh, billy.cam_width, billy.cam_height, indices_x, indices_y)
     
         print "CENTROID", x,y
         draw_crosshairs(x,y, img_thresh)
@@ -145,8 +145,8 @@ if __name__ == "__main__":
         #     billy.motor_left.setSpeed(30)
         #     time.sleep(1)
 
-        # cv.ShowImage("threshholded", img_thresh  )
-        # cv.ShowImage("camera", img  )   
+        cv.ShowImage("threshholded", img_thresh  )
+        cv.ShowImage("camera", img  )   
         if cv.WaitKey(10) == 27:
             break
     cv.DestroyAllWindows()

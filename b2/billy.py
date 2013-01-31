@@ -76,10 +76,21 @@ class Billy:
         self.capture = cv.CaptureFromCAM(camera_id)
         self.cam_initialised = True
 
+    def clamp(self, speed, top_speed):
+        if speed < -top_speed:
+            speed = -top_speed
+        elif speed > top_speed:
+            speed = top_speed
+
+        return speed
+
     def single_value_move(self, adjustment):
         print "moving", adjustment
         self.motor_left_speed = self.motor_left_speed + adjustment
-        self.motor_right_speed = self.motor_right_speed - adjustment
+        self.motor_right_speed = self.motor_right_speed - adjustment    
+
+        self.motor_left_speed = self.clamp(self.motor_left_speed,30)
+        self.motor_right_speed = self.clamp(self.motor_right_speed,30)
 
         self.motor_left.setSpeed(self.motor_left_speed)
         self.motor_right.setSpeed(self.motor_right_speed)
