@@ -169,16 +169,19 @@ if __name__ == "__main__":
                 elif char == "d":
                     derivative_gain *= .9
                 zero_time = time.time() 
+                past_errors = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
+
 
             print "GAINS", proportional_gain, derivative_gain, integral_gain
 
-            cv.ShowImage("threshholded", img_thresh  )
-            cv.ShowImage("camera", img  )   
+#            cv.ShowImage("threshholded", img_thresh  )
+ #           cv.ShowImage("camera", img  )   
             if cv.WaitKey(10) == 27:
                 break
     except ():
         billy.motor_left.setSpeed(0)
         billy.motor_right.setSpeed(0)
         cv.DestroyAllWindows()
+        exit()
         raise
     cv.DestroyAllWindows()
