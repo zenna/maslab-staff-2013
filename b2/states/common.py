@@ -38,6 +38,15 @@ def stop_wheels(act):
 	act["motor_right"].setSpeed(0)
 	act["roller"].setSpeed(0)
 
+def turn_to_orient(act, env, orient, speed):
+	print "orienting to"
+	sm_id = env["sync_value"]["state_machine_id"]
+	current_orientation = env["pull_value"](sm_id,"get_imu")[3]
+	turn_left(act, speed)
+	while True:
+		if abs(env["pull_value"](sm_id,"get_imu")[0] - orient) < 5:
+			break
+
 # ## Don't get stuck state!
 # def close_to_wall(global_memory, local_memory, rcvd_msg, env):
 # 	WALL_THRESHOLD = 400

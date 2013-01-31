@@ -11,7 +11,8 @@ from states import ready_state, explore_state
 if __name__ == "__main__":
 	b4 = billy.Billy()
 	b4.init_arduino() #Get serial port for attiny
-	b4.disable_motors()
+	if len(sys.argv) >= 3 and sys.arv[2] != "motors":
+		b4.disable_motors()
 	camera_id = int(sys.argv[1])
 	b4.init_camera(camera_id) # Camera id is typically 1
 
