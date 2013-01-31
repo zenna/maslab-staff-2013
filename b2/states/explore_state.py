@@ -27,7 +27,8 @@ def explore_body(global_mem, local_mem, act, env):
 	    time.sleep(.1)
 	    stop_wheels(act)
 	else:
-	    time.sleep(10)
+		local_mem["initialised"] = True
+	    time.sleep(2)
 
 #State :  explore, look for balls
 def explore_pid_body(global_mem, local_mem, act, env):
