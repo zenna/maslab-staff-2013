@@ -6,7 +6,7 @@ import billy
 from state_machine import *
 from thalamus import *
 from thalamic_modules import *
-from states import ready_state, explore_state
+from states import ready_state, explore_state, fire_cannon_states
 
 if __name__ == "__main__":
 	b4 = billy.Billy()
@@ -22,7 +22,14 @@ if __name__ == "__main__":
 	wheel_controllers = StateMachine(actuators)
 	wheel_controllers.add_state(ready_state.ready_state, "ready")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
+	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")
 	wheel_controllers.set_current_state("ready")
+
+	# cannon_controllers = StateMachine(actuators)
+	# wheel_controllers.add_state(ready_state.ready_state, "ready")
+	# wheel_controllers.add_state(explore_state.explore_state, "explore")
+	# wheel_controllers.set_current_state("ready")
+
 
 	thalamus = ThalamicNetwork()
 

@@ -42,5 +42,5 @@ def ready_prop(global_memory, local_memory, rcvd_msg, env):
 	return am_init(global_memory, local_memory, rcvd_msg, env) and reset_switch_down(global_memory, local_memory, rcvd_msg, env)
 
 # ready -> explore
-ready_propagators = [{'proposition':ready_prop, 'dst_state_id':"explore"}]
+ready_propagators = [{'proposition':ready_prop, 'dst_state_id':"ready_shoot"}]
 ready_state = State(ready_body, ready_propagators)
