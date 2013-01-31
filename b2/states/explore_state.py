@@ -29,6 +29,27 @@ def explore_body(global_mem, local_mem, act, env):
 	else:
 	    time.sleep(10)
 
+#State :  explore, look for balls
+def explore_body_pid(global_mem, local_mem, act, env):
+	# Do one full revolution using IMU
+	print "exploring"
+	img_thresh = env["sync_value"]["img"]
+
+	x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
+	print "Centroid:", x,y
+	draw_crosshairs(x,y, img_thresh)
+
+	past_errors = global_mem["past_errors"]
+	error_current = position_error(x,y)
+	np.roll(past_errors['errors'],-1)
+	np.roll(past_errors['timestamps'],-1)
+	past_errors['errors'][-1] = error_current
+	past_errors['timestamps'][-1] = time_current
+	derivative_out = find_deriviative(past_errors)
+	integral_out = integrate_errors(past_errors)
+	controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
+	move_differential(controller_out,global_mem, act)
+
 	## OLD
 
 

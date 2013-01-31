@@ -32,10 +32,6 @@ def turn_right(act, speed):
 def stop_wheels(act):
 	act["motor_left"].setSpeed(0)
 	act["motor_right"].setSpeed(0)
-
-def stop_wheels(act):
-	act["motor_left"].setSpeed(0)
-	act["motor_right"].setSpeed(0)
 	act["roller"].setSpeed(0)
 
 def turn_to_orient(act, env, orient, speed):
@@ -48,6 +44,25 @@ def turn_to_orient(act, env, orient, speed):
 		print "current - to", curr, orient
 		if curr < 10:
 			break
+
+def clamp(speed, top_speed):
+    if speed < -top_speed:
+        speed = -top_speed
+    elif speed > top_speed:
+        speed = top_speed
+
+    return speed
+
+def move_differential(adjustment,global_mem,act):
+    global_mem["motor_left_speed"] = global_mem["motor_left_speed"] + adjustment
+    global_mem["motor_right_speed"] = global_mem["motor_right_speed"] - adjustment    
+
+    global_mem["motor_left_speed"] = clamp(global_mem["motor_left_speed"],30)
+    global_mem["motor_right_speed"] = clamp(global_mem["motor_right_speed"],30)
+
+    act["motor_left"].setSpeed(global_mem["motor_left_speed"])
+    act["motor_right"].setSpeed(global_mem["motor_right_speed"])
+
 
 # ## Don't get stuck state!
 # def close_to_wall(global_memory, local_memory, rcvd_msg, env):
