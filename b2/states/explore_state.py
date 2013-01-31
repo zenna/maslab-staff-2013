@@ -9,6 +9,8 @@ def explore_body(global_memory, local_memory, act, env):
 	current_orientation = env["pull_value"](sm_id,"get_imu")[0]
 	one_eight_deg = (current_orientation + 180) % 360
 
+	turn_to_orient(act, env, one_eight_deg, 20)
+
 	import ipdb
 	ipdb.set_trace()
 
