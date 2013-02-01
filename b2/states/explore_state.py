@@ -34,7 +34,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         sm_id = env["sync_value"]["state_machine_id"]
         img_thresh = env["pull_value"](sm_id, "img")
         # stop_wheels(act)
-        time.sleep(.2)
+        # time.sleep(.2)
         x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
         print y
         if 360 < y < 400:
