@@ -4,13 +4,13 @@ from state_machine import *
 ## Proposition: activated when close to walls
 
 def close_to_wall_prop(global_mem, local_mem, act, env):
-	print "close to wall"
+	print "checking close to wall"
 	WALL_THRESHOLD = 400
 	# change this to an or of the left and right sensors
 	sm_id = env["sync_value"]["state_machine_id"]
 	ir_tuple= env["pull_value"](sm_id, "get_ir")
 	if ir_tuple[0] > WALL_THRESHOLD or ir_tuple[2] > WALL_THRESHOLD:
-		return True
+		return True	
 	else:
 		return False
 
