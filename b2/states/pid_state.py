@@ -2,7 +2,7 @@
 from pid import *
 
 # State: seek balls
-def seek_ball_state(global_memory, local_memory, act, env):
+def seek_ball_state(global_memory, local_memory, act, env, check_props):
 	#Calculate motor out with PID controller
 	error_current = position_error(x,y)
 	np.roll(global_mem["past_errors"]['errors'],-1)
