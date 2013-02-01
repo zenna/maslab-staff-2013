@@ -63,8 +63,8 @@ def move_differential(adjustment,global_mem,act):
     global_mem["motor_left_speed"] = global_mem["motor_left_speed"] + adjustment
     global_mem["motor_right_speed"] = global_mem["motor_right_speed"] - adjustment    
 
-    global_mem["motor_left_speed"] = clamp(global_mem["motor_left_speed"],30)
-    global_mem["motor_right_speed"] = clamp(global_mem["motor_right_speed"],30)
+    # global_mem["motor_left_speed"] = clamp(global_mem["motor_left_speed"],30)
+    # global_mem["motor_right_speed"] = clamp(global_mem["motor_right_speed"],30)
 
     print "SENDING SPEED", global_mem["motor_left_speed"], global_mem["motor_right_speed"]
     act["motor_left"].setSpeed(global_mem["motor_left_speed"])
