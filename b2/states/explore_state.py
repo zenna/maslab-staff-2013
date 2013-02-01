@@ -50,14 +50,10 @@ def explore_body(global_mem, local_mem, act, env, check_props):
             if 360 < y2 < 400 and sweeps > 5:
                 time.sleep(.5)
                 roller_on(act)
-                go_fwd(act, 30)
-                time.sleep(4)
+                go_fwd(act, 70)
+                time.sleep(3)
                 stop_wheels(act)
-                roller_off(act)
-                if (int(time.time() - global_mem['start_time']) % 40) > 35:
-                    return True, "shoot"
-                else:
-                    return True, "explore"
+                return True, "explore"
 
         time_elapse = time.time() - start_time
         ir = env["pull_value"](sm_id, "get_ir")[0]
