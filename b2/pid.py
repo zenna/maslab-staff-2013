@@ -75,9 +75,9 @@ if __name__ == "__main__":
     indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
 
     #PID controller, tuning params:
-    proportional_gain = .01
-    integral_gain = 1
-    derivative_gain = 0.01
+    proportional_gain = 0.1
+    integral_gain = 0
+    derivative_gain = 0.05
 
     from getch import Getch
     gch = Getch()
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
             controller_out = proportional_gain * error_current + integral_gain * integral_out + derivative_gain * derivative_out
             print "PID", controller_out, error_current, integral_out, derivative_out
-            # billy.single_value_move(controller_out)
+            billy.single_value_move(int(controller_out))
 
             # if y < 330:
             #     print "rotateleft"
@@ -187,8 +187,8 @@ if __name__ == "__main__":
 
             print "GAINS", proportional_gain, derivative_gain, integral_gain
 
-            cv.ShowImage("threshholded", img_thresh  )
-            cv.ShowImage("camera", img  )   
+#            cv.ShowImage("threshholded", img_thresh  )
+#            cv.ShowImage("camera", img  )   
             if cv.WaitKey(10) == 27:
                 break
     except ():
