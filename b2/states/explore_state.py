@@ -39,7 +39,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         print y
         if 360 < y < 400:
             print "before", initial_speed
-            initial_speed = int(float(initial_speed) * -0.9)
+            initial_speed = int(float(initial_speed) * -0.6)
             print "after", initial_speed
             act["motor_left"].setSpeed(initial_speed)
             act["motor_right"].setSpeed(-initial_speed)
@@ -48,7 +48,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
                 time.sleep(.5)
                 roller_on(act)
                 go_fwd(act, 30)
-                time.sleep(2)
+                time.sleep(4)
                 stop_wheels(act)
                 roller_off(act)
                 return True, "explore"
