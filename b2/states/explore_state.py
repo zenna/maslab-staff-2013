@@ -24,6 +24,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     irs = []
     time_elapses = []
 
+    sweeps = 0
     while True:
         # Check props
         do_transition, to_where = check_props(global_mem, env)
@@ -35,20 +36,23 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
 
         if 370 < y < 450:
-            time.sleep(.5)
-            roller_on(act)
-            go_fwd(act, 30)
-            time.sleep(2)
-            stop_wheels(act)
-            roller_off(act)
-            return True, "explore"
+            initial_speed *= -0.5
+            sweeps += 1
+            if sweeps > 3:
+                time.sleep(.5)
+                roller_on(act)
+                go_fwd(act, 30)
+                time.sleep(2)
+                stop_wheels(act)
+                roller_off(act)
+                return True, "explore"
 
         time_elapse = time.time() - start_time
         ir = env["pull_value"](sm_id, "get_ir")[0]
         irs.append(ir)
         time_elapses.append(time_elapses)
 
-        if time_elapse > 10:
+        if time_elapse > 50:
             break
 
     #Go back to place of farthest wall
