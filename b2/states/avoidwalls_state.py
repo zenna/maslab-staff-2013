@@ -1,5 +1,6 @@
 from common import *
 from state_machine import *
+import random
 
 ## Proposition: activated when close to walls
 
@@ -23,7 +24,7 @@ def avoid_wall_body(global_mem, local_mem, act, env, check_props):
 	act["motor_right"].setSpeed(-70)
 
 	#turn for random time from 0-3 secs
-	time.sleep(rand.random()*3)
+	time.sleep(random.random()*3)
 	return True, global_mem["previous_state"]
 
 avoid_wall_state = State(avoid_wall_body,[])

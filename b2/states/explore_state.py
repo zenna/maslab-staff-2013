@@ -14,7 +14,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     # Do one full revolution using IMU
     print "Exploring"
     # Randomise turn left or right
-    initial_speed = 60
+    initial_speed = 70
     if random.randrange(2) == True:
         initial_speed = -initial_speed
     act["motor_left"].setSpeed(initial_speed)
@@ -112,5 +112,5 @@ def ball_in_sight(global_memory, local_memory, rcvd_msg, env):
 
 find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
 find_ball_state = State(explore_body,find_ball_prop)
-explore_state = State(explore_body, [] )
+explore_state = State(explore_body, [go_to_avoid_wall, go_to_end] )
 # explore_propagators = [go_to_ready, go_to_avoid_wall]
