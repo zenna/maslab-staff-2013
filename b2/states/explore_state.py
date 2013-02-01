@@ -37,7 +37,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
 
         if 370 < y < 450:
             print "before", initial_speed
-            initial_speed *= int(float(initial_speed) * -0.8)
+            initial_speed = int(float(initial_speed) * -0.8)
             print "after", initial_speed
             act["motor_left"].setSpeed(initial_speed)
             act["motor_right"].setSpeed(-initial_speed)
