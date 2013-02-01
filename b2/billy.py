@@ -32,7 +32,8 @@ class Billy:
                 self.name = name
 
             def setSpeed(self, speed):
-                print "Turning", self.name, speed
+                pass
+                # print "Turning", self.name, speed
         self.motor_left = FakeMotor("left")
         self.motor_right = FakeMotor("right")
         self.roller = FakeMotor("roller")

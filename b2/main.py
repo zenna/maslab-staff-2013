@@ -13,6 +13,8 @@ if __name__ == "__main__":
 	b4.init_arduino() #Get serial port for attiny
 	# b4.init_windows()
 
+	# b4.disable_motors()
+
 	camera_id = int(sys.argv[1])
 	b4.init_camera(camera_id) # Camera id is typically 1
 	# b4.create_histogram()
@@ -24,7 +26,7 @@ if __name__ == "__main__":
 
 	rs = ready_state.ready_state
 	if len(sys.argv) >= 3:
-		rs.propagators = [{'proposition':ready_prop, 'dst_state_id':sys.argv[2]}]
+		rs.propagators = [{'proposition':ready_state.ready_prop, 'dst_state_id':sys.argv[2]}]
 
 	wheel_controllers.add_state(rs, "ready")
 	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")

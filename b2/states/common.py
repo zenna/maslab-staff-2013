@@ -40,6 +40,12 @@ def stop_wheels(act):
 	act["motor_right"].setSpeed(0)
 	act["roller"].setSpeed(0)
 
+def roller_on(act):
+	act["roller"].setSpeed(126)
+
+def roller_off(act):
+	act["roller"].setSpeed(0)
+
 def turn_to_orient(act, env, orient, speed):
 	print "orienting to"
 	sm_id = env["sync_value"]["state_machine_id"]
