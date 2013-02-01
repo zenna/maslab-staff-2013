@@ -38,17 +38,6 @@ class StateMachine:
 		# FIX
 		self.children[src_state_id].append({"dst_state_id":dst_state_id,"proposition":proposition})
 
-	def check_propositions(self, state_id, env):
-		# This checks all propositions to all children
-		# of state id, and returns the state to transition
-		# to if any are true, otherwise returns original state
-		for child in self.children[state_id]:
-			do_transition = child["proposition"](**env)
-			if do_transition == True:
-				return child["dst_state_id"]
-
-		return state_id
-
 	def step(self, env):
 		if 	self.current_state_id == None:
 			print "NO CURRENT STATE"
@@ -56,11 +45,16 @@ class StateMachine:
 		
 		# self.states[self.current_state_id].init()
 		current_state = self.states[self.current_state_id]
-		current_state.code(self.global_memory, current_state.memory, self.actuators, env)
-		do_transition, dst_state_id = current_state.check_propagations(self.global_memory, env)
+		do_transition, dst_state_id = current_state.code(self.global_memory, current_state.memory, self.actuators, env, current_state.check_propagations)
+		
+		# A state may tell you directly to transition to anotehr state
 		if do_transition == True:
-			print "doing transition"
 			self.switch_states(self.current_state_id, dst_state_id)
+		else:
+			do_transition, dst_state_id = current_state.check_propagations(self.global_memory, env)
+			if do_transition == True:
+				print "doing transition"
+				self.switch_states(self.current_state_id, dst_state_id)
 
 	def switch_states(self, current_state_id, next_state_id):
 		self.current_state_id = next_state_id

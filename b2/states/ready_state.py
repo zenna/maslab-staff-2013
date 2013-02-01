@@ -2,7 +2,7 @@ from common import *
 from state_machine import *
 
 ## Ready State Body : initialisation and ready to go
-def ready_body(global_mem, local_mem, act, env):
+def ready_body(global_mem, local_mem, act, env, check_props):
 	# This state initialises memory and gets ready for the button press
 	print "In ready state"
 	stop_wheels(act)
@@ -27,6 +27,8 @@ def ready_body(global_mem, local_mem, act, env):
 		global_mem["indices_x"] = np.tile(range(cam_width),[cam_height,1])
 		indices_y = np.tile(range(cam_width),[cam_width,1]).transpose()
 		global_mem["indices_y"] = indices_y[0:cam_height,0:cam_width]
+
+	return False, None
 
 def reset_switch_down(global_mem, local_mem, rcvd_msg, env):
 	if env["sync_value"]["do_reset"] == True:

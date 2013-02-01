@@ -16,6 +16,7 @@ def ready_shoot_body(global_memory, local_memory, act, env):
 	time.sleep(.5)
 	act["latch"].setAngle(UNLATCHED_ANGLE)
 	time.sleep(10)
+	return False, None
 
 
 def ready_to_shoot(global_memory, local_memory, act, env):
