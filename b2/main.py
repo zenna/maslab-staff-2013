@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
 	rs = ready_state.ready_state
 	if len(sys.argv) >= 3:
-		rs.propagators = [{'proposition':ready_prop, 'dst_state_id':sys.argv[2]}]
+		rs.propagators = [{'proposition':ready_state.ready_prop, 'dst_state_id':sys.argv[2]}]
 
 	wheel_controllers.add_state(rs, "ready")
 	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")
