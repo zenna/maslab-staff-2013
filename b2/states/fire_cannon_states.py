@@ -2,7 +2,7 @@ from common import *
 from state_machine import *
 
 UNLATCHED_ANGLE = 50
-LATCHED_ANGLE = 110
+LATCHED_ANGLE = 10
 def ready_shoot_body(global_memory, local_memory, act, env):
 	act["latch"].setAngle(UNLATCHED_ANGLE)
 	act["spool"].setSpeed(-40)
