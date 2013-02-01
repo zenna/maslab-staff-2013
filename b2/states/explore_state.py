@@ -69,7 +69,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     #Go back to place of farthest wall
     act["motor_left"].setSpeed(-initial_speed)
     act["motor_right"].setSpeed(initial_speed)
-    time.sleep(time_elapses[irs.index(min(irs))])
+    time.sleep(2.0)
     
     # Then go forward
     act["motor_left"].setSpeed(initial_speed)
