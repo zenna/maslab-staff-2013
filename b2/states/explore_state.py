@@ -75,7 +75,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     act["motor_left"].setSpeed(initial_speed)
     act["motor_right"].setSpeed(initial_speed)
     stop_wheels(act)
-    time.sleep()
+    time.sleep(1.0)
 
     return False, None
 
