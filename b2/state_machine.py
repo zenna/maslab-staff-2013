@@ -45,16 +45,19 @@ class StateMachine:
 		
 		# self.states[self.current_state_id].init()
 		current_state = self.states[self.current_state_id]
-		do_transition, dst_state_id = current_state.code(self.global_memory, current_state.memory, self.actuators, env, current_state.check_propagations)
-		
-		# A state may tell you directly to transition to anotehr state
-		if do_transition == True:
-			self.switch_states(self.current_state_id, dst_state_id)
-		else:
-			do_transition, dst_state_id = current_state.check_propagations(self.global_memory, env)
+		try:
+			do_transition, dst_state_id = current_state.code(self.global_memory, current_state.memory, self.actuators, env, current_state.check_propagations)
+			
+			# A state may tell you directly to transition to anotehr state
 			if do_transition == True:
-				print "doing transition:",self.current_state_id,dst_state_id 
 				self.switch_states(self.current_state_id, dst_state_id)
+			else:
+				do_transition, dst_state_id = current_state.check_propagations(self.global_memory, env)
+				if do_transition == True:
+					print "doing transition:",self.current_state_id,dst_state_id 
+					self.switch_states(self.current_state_id, dst_state_id)
+		except:
+			pass
 
 	def switch_states(self, current_state_id, next_state_id):
 		self.global_memory["previous_state"] = current_state_id
