@@ -7,7 +7,7 @@ from avoidwalls_state import *
 from states import *
 ## Common Propogators
 def time_over_prop(global_mem, local_memory, rcvd_msg, env):
-	if time.time() - global_mem['start_time'] > 10:
+	if time.time() - global_mem['start_time'] > 175:
 		return True
 	else:
 		return False
