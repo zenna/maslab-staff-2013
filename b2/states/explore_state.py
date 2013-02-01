@@ -27,8 +27,9 @@ def explore_body(global_mem, local_mem, act, env):
         time.sleep(.1)
         stop_wheels(act)
     else:
+        go_fwd(act, 2)
         local_mem["initialised"] = True
-        time.sleep(2)
+        # time.sleep(2)
 
 #State :  explore, look for balls
 def explore_pid_body(global_mem, local_mem, act, env):
@@ -58,5 +59,5 @@ def explore_pid_body(global_mem, local_mem, act, env):
 
 find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
 find_ball_state = State(explore_body,find_ball_prop)
-explore_state = State(explore_pid_body, [] )
+explore_state = State(explore_body, [] )
 # explore_propagators = [go_to_ready, go_to_avoid_wall]
