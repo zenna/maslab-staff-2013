@@ -6,7 +6,7 @@ LATCHED_ANGLE = 110
 def ready_shoot_body(global_memory, local_memory, act, env):
 	act["latch"].setAngle(UNLATCHED_ANGLE)
 	act["spool"].setSpeed(-40)
-	time.sleep(2)
+	time.sleep(3)
 	act["spool"].setSpeed(0)
 	act["latch"].setAngle(LATCHED_ANGLE)
 	time.sleep(1)
