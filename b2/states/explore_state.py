@@ -33,7 +33,13 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         sm_id = env["sync_value"]["state_machine_id"]
         img_thresh = env["pull_value"](sm_id, "img")
         x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
-        print "Centroid:", x,y
+
+        if 370 < y < 450:
+            time.sleep(.5)
+            go_fwd(act, 30)
+            time.sleep(2)
+            stop_wheels(act)
+            return True, "explore"
 
         time_elapse = time.time() - start_time
         ir = env["pull_value"](sm_id, "get_ir")[0]
