@@ -11,6 +11,7 @@ def ball_present(x,y):
     
 #State :  explore, look for balls
 def explore_body(global_mem, local_mem, act, env, check_props):
+    roller_on(act)
     # Do one full revolution using IMU
     print "Exploring"
     # Randomise turn left or right
