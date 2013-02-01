@@ -35,9 +35,9 @@ def ready_body(global_mem, local_mem, act, env, check_props):
 	img_thresh = env["pull_value"](sm_id, "frame")
 	# img_thresh = env["pull_value"](sm_id, "img")
 
-	cv.ShowImage("camera", frame)
-	cv.ShowImage("ball", img_thresh)
-	cv.WaitKey(10)
+	# cv.ShowImage("camera", frame)
+	# cv.ShowImage("ball", img_thresh)
+	# cv.WaitKey(10)
 	# cv.ShowImage("wall", self.get_frame())
 
 	return False, None
