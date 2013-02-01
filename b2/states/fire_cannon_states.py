@@ -35,9 +35,7 @@ def ready_shoot_body(global_mem, local_mem, act, env, check_props):
 		# print 'ir', ir_ball
 		if env["pull_value"](sm_id, "high_button") == True:
 			speed = -speed
-			break
-		act["spool"].setSpeed(speed)
-
+			act["spool"].setSpeed(speed)
 	return False, None
 
 def shoot_body(global_mem, local_mem, act, env, check_props):
