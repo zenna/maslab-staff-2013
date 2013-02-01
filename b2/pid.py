@@ -75,9 +75,9 @@ if __name__ == "__main__":
     indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
 
     #PID controller, tuning params:
-    proportional_gain = 0.1
-    integral_gain = 0
-    derivative_gain = 0.05
+    proportional_gain = 0.2
+    integral_gain = 0.1
+    derivative_gain = 0.1
 
     from getch import Getch
     gch = Getch()
