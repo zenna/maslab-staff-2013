@@ -29,7 +29,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
 
     while True:
         # Check props
-        do_transition, to_where = check_props()
+        do_transition, to_where = check_props(global_mem, env)
         if do_transition == True:
             return do_transition, to_where
 
