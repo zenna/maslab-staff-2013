@@ -12,8 +12,7 @@ if __name__ == "__main__":
 	b4 = billy.Billy()	
 	b4.init_arduino() #Get serial port for attiny
 	# b4.init_windows()
-	if len(sys.argv) >= 3:
-		b4.disable_motors()
+
 	camera_id = int(sys.argv[1])
 	b4.init_camera(camera_id) # Camera id is typically 1
 	# b4.create_histogram()
@@ -22,7 +21,12 @@ if __name__ == "__main__":
 	# and these slots are mapped by a separate process to an actuator
 	actuators = {"motor_left": b4.motor_left, "motor_right": b4.motor_right, "roller": b4.roller, "latch": b4.latch, "spool": b4.spool}
 	wheel_controllers = StateMachine(actuators)
-	wheel_controllers.add_state(ready_state.ready_state, "ready")
+
+	rs = ready_state.ready_state
+	if len(sys.argv) >= 3:
+		rs.propagators = [{'proposition':ready_prop, 'dst_state_id':sys.argv[2]}]
+
+	wheel_controllers.add_state(rs, "ready")
 	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
 	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")
