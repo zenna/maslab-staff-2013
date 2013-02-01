@@ -27,7 +27,9 @@ def explore_body(global_mem, local_mem, act, env):
         time.sleep(.1)
         stop_wheels(act)
     else:
+        act["roller"].setSpeed(120)
         go_fwd(act, 2)
+        act["roller"].setSpeed(0)
         local_mem["initialised"] = True
         # time.sleep(2)
 
