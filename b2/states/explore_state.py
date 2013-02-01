@@ -34,7 +34,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
             return do_transition, to_where
 
         time_elapse = time.time() - start_time
-        ir = env["pull_value"](sm_id, "ir")[0]
+        ir = env["pull_value"](sm_id, "get_ir")[0]
         irs.append(ir)
         time_elapses.append(time_elapses)
 
@@ -50,6 +50,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     act["motor_left"].setSpeed(initial_speed)
     act["motor_right"].setSpeed(initial_speed)
     stop_wheels(act)
+    time.sleep(10)
 
     return False, None
 
