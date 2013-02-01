@@ -1,7 +1,28 @@
 from common import *
 from state_machine import *
 
-def ready_shoot_body(global_memory, local_memory, act, env, check_props):
+# Functions ending in body denote the main code that a state will execute
+# Ready shoot state: moves the cannon into position ready for loading
+
+# Global memory is global to a particular state machine, is used to communicate
+# between states. e.g. global_mem["pid-gain"] = 5
+
+# Local memory is local only to state and propositions
+
+# act is the object of actuators, use this to move motors
+# e.g. act["spool"].setSpeed(100)
+# List of actuator is in main
+
+# Env gives access to all environment stuff, switches, ir sensors
+# camera etc.
+# Because I havent found a better way first you need to get this state machines id
+# sm_id = env["sync_value"]["state_machine_id"]
+# then do ir_ball = env["pull_values"](sm_id, "ir_ball")
+# Where you can replace ir_ball with any environment variable
+
+# If you want to transition immediately to another state do
+# return True, state_i_want_to_go_to_name
+def ready_shoot_body(global_mem, local_mem, act, env, check_props):
 	sm_id = env["sync_value"]["state_machine_id"]
 
 	while True:		
@@ -13,7 +34,7 @@ def ready_shoot_body(global_memory, local_memory, act, env, check_props):
 
 	return False, None
 
-def shoot_body(global_memory, local_memory, act, env, check_props):
+def shoot_body(global_mem, local_mem, act, env, check_props):
 	sm_id = env["sync_value"]["state_machine_id"]
 
 	while True:
@@ -25,7 +46,9 @@ def shoot_body(global_memory, local_memory, act, env, check_props):
 
 	return True, "ready_shoot"
 
-def ball_loaded_prop(global_memory, local_memory, act, env):
+# Propositions are sufficed prop for convetion
+# and must return true or false
+def ball_loaded_prop(global_mem, local_mem, act, env):
 	sm_id = env["sync_value"]["state_machine_id"]
 	ir_ball = env["pull_values"](sm_id, "ir_ball")
 	if ir_ball > 500:
