@@ -12,9 +12,9 @@ def ready_body(global_mem, local_mem, act, env):
 		global_mem["motor_right_speed"] = 10
 		global_mem["motor_left_speed"] = 10
 
-		global_mem["proportional_gain"] = .05
-		global_mem["integral_gain"] = .0001
-		global_mem["derivative_gain"] = 2
+		global_mem["proportional_gain"] = .005
+		global_mem["integral_gain"] = .00001
+		global_mem["derivative_gain"] = 0.2
 		window_size = 1000	
 		global_mem["past_errors"] = {'errors':np.zeros([window_size]),'timestamps':np.zeros([window_size])}
 		local_mem["initialised"] = True
