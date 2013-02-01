@@ -3,10 +3,12 @@ from state_machine import *
 from pid import *
 
 def ball_present(x,y):
-    if (x - 0.0) < 0.001 and (y - 0.0) < 0.001:
+    if abs(x - 0.0) < 0.001 and abs(y - 0.0) < 0.001:
         return True
+    else:
+        return False
     
-    #State :  explore, look for balls
+#State :  explore, look for balls
 def explore_body(global_mem, local_mem, act, env, check_props):
     # Do one full revolution using IMU
     print "Exploring"
