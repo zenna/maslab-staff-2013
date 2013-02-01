@@ -56,7 +56,7 @@ class Arduino(threading.Thread):
         print "Connecting"
         if self.portOpened: self.close()
         # Loop through possible values of ACMX, and try to connect on each one
-        for i in range(4):
+        for i in range(10):
             try:
                 # Try to create the serial connection
                 self.port=serial.Serial(port='/dev/ttyACM{0}'.format(i), baudrate=9600, timeout=0.5)

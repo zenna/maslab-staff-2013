@@ -96,7 +96,7 @@ class Billy:
         self.spool = arduino.Motor(self.ard, 0, 30, 11, False)
         self.roller = arduino.Motor(self.ard, 0, 36, 10, False)
         self.latch = arduino.Servo(self.ard, 12)  # Create a Servo object
-        self.latch.setAngle(90)
+        self.latch.setAngle(0)
         # Create an analog sensor on pin A0
         self.ir_right = arduino.AnalogInput(self.ard, 0)
         self.ir_centre = arduino.AnalogInput(self.ard, 1)
