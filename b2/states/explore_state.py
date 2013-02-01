@@ -59,7 +59,7 @@ def explore_pid_body(global_mem, local_mem, act, env):
 def explore_compass_body(global_mem, local_mem, act, env):
     import ipdb
     ipdb.set_trace()
-    sm_id = env["state_machine_id"]
+    sm_id = env["sync_value"]["state_machine_id"]
     current_orientation = env["pull_value"](sm_id,"get_imu")[0]
     one_eight_deg = (current_orientation + 180) % 360
 
