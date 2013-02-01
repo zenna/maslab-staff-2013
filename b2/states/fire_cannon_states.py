@@ -26,15 +26,17 @@ def ready_shoot_body(global_mem, local_mem, act, env, check_props):
 	print "readying shoot"
 	sm_id = env["sync_value"]["state_machine_id"]
 
+	speed = 40
+
 	while True:		
 		ir_ball = env["pull_value"](sm_id, "ir_ball")
 		# import ipdb
 		# ipdb.set_trace()
 		# print 'ir', ir_ball
-		if ir_ball > 415:
-			act["spool"].setSpeed(0)
+		if env["pull_value"](sm_id, "high_button") == True:
+			speed = -speed
 			break
-		act["spool"].setSpeed(40)
+		act["spool"].setSpeed(speed)
 
 	return False, None
 
