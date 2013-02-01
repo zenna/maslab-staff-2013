@@ -84,5 +84,5 @@ def explore_compass_body(global_mem, local_mem, act, env):
 
 find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
 find_ball_state = State(explore_body,find_ball_prop)
-explore_state = State(explore_compass_body, [] )
+explore_state = State(explore_pid_body, [] )
 # explore_propagators = [go_to_ready, go_to_avoid_wall]
