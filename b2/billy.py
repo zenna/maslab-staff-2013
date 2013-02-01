@@ -26,7 +26,7 @@ class Billy:
         self.disable_motors()
 
         #initialisation for pid
-        baseline_speed = 0
+        baseline_speed = 30
         self.motor_left_speed = baseline_speed
         self.motor_right_speed = baseline_speed
 
