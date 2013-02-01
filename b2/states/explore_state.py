@@ -16,6 +16,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     img_thresh = env["pull_value"](sm_id, "img")
 
     # Randomise turn left or right
+    initial_speed = 30
     if random.randrange(2) == True:
         initial_speed = -initial_speed
     act["motor_left"].setSpeed(initial_speed)
