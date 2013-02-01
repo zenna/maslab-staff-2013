@@ -9,8 +9,8 @@ def ready_body(global_mem, local_mem, act, env):
 	if "initialised" not in local_mem:
 		global_mem['start_time'] = time.time()
 		#PID controller, tuning params:
-		global_mem["motor_right_speed"] = 0
-		global_mem["motor_left_speed"] = 0
+		global_mem["motor_right_speed"] = 10
+		global_mem["motor_left_speed"] = 10
 
 		global_mem["proportional_gain"] = .05
 		global_mem["integral_gain"] = .0001
