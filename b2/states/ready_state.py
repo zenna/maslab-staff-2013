@@ -60,5 +60,5 @@ def time_up_prop(global_memory, local_memory, rcvd_msg, env):
 		return False
 
 # ready -> explore
-ready_propagators = [go_to_end, {'proposition':ready_prop, 'dst_state_id':"ready"}]
+ready_propagators = [go_to_end, {'proposition':ready_prop, 'dst_state_id':"explore"}]
 ready_state = State(ready_body, ready_propagators)
