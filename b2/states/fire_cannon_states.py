@@ -2,7 +2,6 @@ from common import *
 from state_machine import *
 
 def ready_shoot_body(global_memory, local_memory, act, env, check_props):
-	act["spool"].setSpeed(-40)
 	sm_id = env["sync_value"]["state_machine_id"]
 
 	while True:		
@@ -10,11 +9,11 @@ def ready_shoot_body(global_memory, local_memory, act, env, check_props):
 		if ir_ball > 415:
 			act["spool"].setSpeed(0)
 			break
+		act["spool"].setSpeed(-40)
 
-	return True, "shoot"
+	return False, None
 
 def shoot_body(global_memory, local_memory, act, env, check_props):
-	act["spool"].setSpeed(40)
 	sm_id = env["sync_value"]["state_machine_id"]
 
 	while True:
@@ -22,6 +21,7 @@ def shoot_body(global_memory, local_memory, act, env, check_props):
 		if high_button == True:
 			act["spool"].setSpeed(0)
 			break
+	act["spool"].setSpeed(40)
 
 	return True, "ready_shoot"
 
