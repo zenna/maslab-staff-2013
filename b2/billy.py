@@ -14,6 +14,10 @@ import arduino
 import attiny
 import scipy.integrate
 
+def is_rect_nonzero(r):
+    (_,_,w,h) = r
+    return (w > 0) and (h > 0)
+
 class Billy:
     def __init__(self):
         self.cam_initialised = False
@@ -25,6 +29,52 @@ class Billy:
         baseline_speed = 0
         self.motor_left_speed = baseline_speed
         self.motor_right_speed = baseline_speed
+
+    # def create_histogram(self):
+    #     while True:
+    #         frame = cv.QueryFrame( self.capture )
+
+    #         # Convert to HSV and keep the hue
+    #         hsv = cv.CreateImage(cv.GetSize(frame), 8, 3)
+    #         cv.CvtColor(frame, hsv, cv.CV_BGR2HSV)
+    #         self.hue = cv.CreateImage(cv.GetSize(frame), 8, 1)
+    #         cv.Split(hsv, self.hue, None, None, None)
+
+    #         if self.drag_start and is_rect_nonzero(self.selection):
+    #             sub = cv.GetSubRect(frame, self.selection)
+    #             save = cv.CloneMat(sub)
+    #             cv.ConvertScale(frame, frame, 0.5)
+    #             cv.Copy(save, sub)
+    #             x,y,w,h = self.selection
+    #             cv.Rectangle(frame, (x,y), (x+w,y+h), (255,255,255))
+
+    #             sel = cv.GetSubRect(self.hue, self.selection )
+    #             cv.CalcArrHist( [sel], hist, 0)
+    #             (_, max_val, _, _) = cv.GetMinMaxHistValue( hist)
+    #             if max_val != 0:
+    #                 cv.ConvertScale(hist.bins, hist.bins, 255. / max_val)
+    #         elif self.track_window and is_rect_nonzero(self.track_window):
+    #             cv.EllipseBox( frame, track_box, cv.CV_RGB(255,0,0), 3, cv.CV_AA, 0 )
+
+    #         cv.ShowImage( "camera", frame )
+    #         c = cv.WaitKey(7) % 0x100
+    #         if c == 27:
+    #             break
+
+
+    # def on_mouse(self, event, x, y, flags, param):
+    #     print "mousing yo"
+    #     if event == cv.CV_EVENT_LBUTTONDOWN:
+    #         self.drag_start = (x, y)
+    #     if event == cv.CV_EVENT_LBUTTONUP:
+    #         self.drag_start = None
+    #         self.track_window = self.selection
+    #     if self.drag_start:
+    #         xmin = min(x, self.drag_start[0])
+    #         ymin = min(y, self.drag_start[1])
+    #         xmax = max(x, self.drag_start[0])
+    #         ymax = max(y, self.drlag_start[1])
+    #         self.selection = (xmin, ymin, xmax - xmin, ymax - ymin)
 
     def disable_motors(self):
         class FakeMotor():
@@ -45,7 +95,7 @@ class Billy:
         self.motor_right = arduino.Motor(self.ard, 0, 48, 8, True)
         self.spool = arduino.Motor(self.ard, 0, 30, 11, False)
         self.roller = arduino.Motor(self.ard, 0, 36, 10, False)
-        self.latch = arduino.Servo(self.ard, 13)  # Create a Servo object
+        self.latch = arduino.Servo(self.ard, 12)  # Create a Servo object
         self.latch.setAngle(90)
         # Create an analog sensor on pin A0
         self.ir_right = arduino.AnalogInput(self.ard, 0)
@@ -97,7 +147,11 @@ class Billy:
 
     def init_windows(self):
         cv.NamedWindow("camera", 1)
-        cv.NamedWindow("threshholded", 1)
+        cv.SetMouseCallback( "camera", self.on_mouse)
+        self.drag_start = None      # Set to (x,y) when mouse starts drag
+        self.track_window = None    # Set to rect when the mouse drag finishes
+
+        # cv.NamedWindow("threshholded", 1)
 
     # Return infra-red value
     def get_ir(self):

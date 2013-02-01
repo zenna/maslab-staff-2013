@@ -75,7 +75,7 @@ if __name__ == "__main__":
     indices_y = indices_y[0:billy.cam_height,0:billy.cam_width]
 
     #PID controller, tuning params:
-    proportional_gain = .001
+    proportional_gain = .01
     integral_gain = 1
     derivative_gain = 0.01
 

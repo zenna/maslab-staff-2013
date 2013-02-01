@@ -11,10 +11,12 @@ from states import ready_state, explore_state, fire_cannon_states
 if __name__ == "__main__":
 	b4 = billy.Billy()
 	b4.init_arduino() #Get serial port for attiny
+	# b4.init_windows()
 	if len(sys.argv) >= 3 and sys.arv[2] != "motors":
 		b4.disable_motors()
 	camera_id = int(sys.argv[1])
 	b4.init_camera(camera_id) # Camera id is typically 1
+	# b4.create_histogram()
 
 	# A state machine could have a number of slots it can write to
 	# and these slots are mapped by a separate process to an actuator
