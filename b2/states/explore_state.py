@@ -36,9 +36,9 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
 
         if 370 < y < 450:
-            initial_speed *= -0.5
-            act["motor_left"].setSpeed(int(initial_speed))
-            act["motor_right"].setSpeed(int(-initial_speed))
+            initial_speed *= int(initial_speed * -0.8)
+            act["motor_left"].setSpeed(initial_speed)
+            act["motor_right"].setSpeed(initial_speed)
             sweeps += 1
             if sweeps > 3:
                 time.sleep(.5)
