@@ -2,7 +2,6 @@ from common import *
 from state_machine import *
 from pid import *
 
-
 def ball_present(x,y):
     if abs(x - 0.0) < 0.001 and abs(y - 0.0) < 0.001:
         return True
@@ -11,7 +10,7 @@ def ball_present(x,y):
     
 #State :  explore, look for balls
 def explore_body(global_mem, local_mem, act, env, check_props):
-    roller_on(act)
+    act["roller"].setSpeed(126)
     # Do one full revolution using IMU
     print "Exploring"
     # Randomise turn left or right
@@ -28,6 +27,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
 
     sweeps = 0
     while True:
+        atime = time.time()
         # Check props
         do_transition, to_where = check_props(global_mem, env)
         if do_transition == True:
@@ -44,15 +44,15 @@ def explore_body(global_mem, local_mem, act, env, check_props):
             act["motor_left"].setSpeed(initial_speed)
             act["motor_right"].setSpeed(-initial_speed)
             img_thresh = env["pull_value"](sm_id, "img")
-            x,y2 = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
-            
             sweeps += 1
-            if 360 < y2 < 400 and sweeps > 5:
+            #x,y2 = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
+            if sweeps > 5 or time.time() - atime > 15:
                 time.sleep(.5)
                 roller_on(act)
-                go_fwd(act, 70)
-                time.sleep(3)
+                go_fwd(act, 30)
+                time.sleep(4)
                 stop_wheels(act)
+                roller_off(act)
                 return True, "explore"
 
         time_elapse = time.time() - start_time
@@ -60,19 +60,19 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         irs.append(ir)
         time_elapses.append(time_elapses)
 
-        if time_elapse > 5:
+        if time_elapse > 50:
             break
 
     #Go back to place of farthest wall
     act["motor_left"].setSpeed(-initial_speed)
     act["motor_right"].setSpeed(initial_speed)
-    time.sleep(2.0)
+    #time.sleep()
     
     # Then go forward
     act["motor_left"].setSpeed(initial_speed)
     act["motor_right"].setSpeed(initial_speed)
     stop_wheels(act)
-    time.sleep(1.0)
+    time.sleep(1)
 
     return False, None
 
@@ -110,7 +110,7 @@ def ball_in_sight(global_memory, local_memory, rcvd_msg, env):
     else:
         return False
 
-find_ball_prop = [go_to_end,  {'proposition':am_init, 'dst_state_id':"explore"}]
+find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
 find_ball_state = State(explore_body,find_ball_prop)
-explore_state = State(explore_body, [go_to_end,go_to_avoid_wall] )
+explore_state = State(explore_body, [] )
 # explore_propagators = [go_to_ready, go_to_avoid_wall]
