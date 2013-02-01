@@ -36,7 +36,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         # stop_wheels(act)
         time.sleep(.2)
         x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
-
+        print y
         if 370 < y < 450:
             print "before", initial_speed
             initial_speed = int(float(initial_speed) * -0.9)
