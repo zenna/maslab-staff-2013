@@ -36,9 +36,11 @@ def explore_body(global_mem, local_mem, act, env, check_props):
 
         if 370 < y < 450:
             time.sleep(.5)
+            roller_on(act)
             go_fwd(act, 30)
             time.sleep(2)
             stop_wheels(act)
+            roller_off(act)
             return True, "explore"
 
         time_elapse = time.time() - start_time
