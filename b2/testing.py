@@ -52,6 +52,23 @@ def turn_right(time_to_move):
 	billy.motor_left.setSpeed(0)
 	billy.motor_right.setSpeed(0)
 
+def spool_stop():
+	billy.spool.speed(0)
+
+def spool_flow(speed):
+	billy.spool.setSpeed(speed)
+
+def spool_shift(speed):
+	billy.spool.setSpeed(speed)
+	time.sleep(1)
+	billy.spool.setSpeed(0)
+
+def latch():
+	billy.latch.setAngle(0)
+
+def unlatch():
+	billy.latch.setAngle(110)
+
 billy.motor_right.setSpeed(0)
 billy.motor_left.setSpeed(0)
 billy.roller.setSpeed(0)
