@@ -6,7 +6,7 @@ import billy
 from state_machine import *
 from thalamus import *
 from thalamic_modules import *
-from states import ready_state, explore_state, fire_cannon_states
+from states import ready_state, explore_state, fire_cannon_states, end_state, avoidwalls_state
 
 if __name__ == "__main__":
 	b4 = billy.Billy()	
@@ -28,11 +28,13 @@ if __name__ == "__main__":
 	if len(sys.argv) >= 3:
 		rs.propagators = [{'proposition':ready_state.ready_prop, 'dst_state_id':sys.argv[2]}]
 
+	wheel_controllers.add_state(end_state.end_state, "end")
 	wheel_controllers.add_state(rs, "ready")
 	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
 	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")	
 	wheel_controllers.add_state(fire_cannon_states.shoot_state, "shoot")
+	wheel_controllers.add_state(avoidwalls_state.avoid_wall_state, "avoid_walls")
 
 	wheel_controllers.set_current_state("ready")
 
@@ -45,7 +47,11 @@ if __name__ == "__main__":
 	thalamus = ThalamicNetwork()
 
 	thalamus.add_modulator(b4.get_ir, "get_ir")
-	thalamus.add_modulator(threshold_green_balls, "threshold_green_balls")
+	if b4.in_red_mode() == True:
+		thalamus.add_modulator(threshold_red_balls, "threshold_green_balls")
+	else:
+		thalamus.add_modulator(threshold_green_balls, "threshold_green_balls")
+
 	thalamus.add_modulator(b4.get_frame, "get_frame")
 	thalamus.add_modulator(bgr_to_hsv, "bgr_to_hsv")
 	thalamus.add_modulator(b4.do_reset, "do_reset")
@@ -64,6 +70,8 @@ if __name__ == "__main__":
 	thalamus.link_nodes("in_red_mode", "wheel_controllers", "in_red_mode")
 	thalamus.link_nodes("ir_ball", "wheel_controllers", "ir_ball")
 	thalamus.link_nodes("high_button", "wheel_controllers", "high_button")
+	thalamus.link_nodes("get_frame", "wheel_controllers", "frame")
+
 
 	try:
 		thalamus.run_serial()

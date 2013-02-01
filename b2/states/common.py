@@ -2,15 +2,18 @@
 import numpy as np
 import time
 
+from avoidwalls_state import *
+
 from states import *
 ## Common Propogators
 def time_over_prop(global_mem, local_memory, rcvd_msg, env):
-	if time.time() - global_mem['start_time'] > 178:
+	if time.time() - global_mem['start_time'] > 10:
 		return True
 	else:
 		return False
-go_to_ready = {'proposition':time_over_prop, 'dst_state_id':"ready"}
+go_to_end = {'proposition':time_over_prop, 'dst_state_id':"end"}
 no_propagators = []
+go_to_avoid_wall = {'proposition':close_to_wall_prop, 'dst_state_id':"avoid_wall"}
 
 def am_init(global_memory, local_memory, rcvd_msg, env):
 	if "initialised" in local_memory and local_memory['initialised'] == True:
@@ -19,6 +22,12 @@ def am_init(global_memory, local_memory, rcvd_msg, env):
 		return False
 
 ## COMMON functions
+def stop_all_motors(act):
+	act["motor_left"].setSpeed(0)
+	act["motor_right"].setSpeed(0)
+	act["spool"].setSpeed(0)
+	act["roller"].setSpeed(0)
+
 def go_fwd(act, speed):
 	act["motor_left"].setSpeed(speed)
 	act["motor_right"].setSpeed(speed)

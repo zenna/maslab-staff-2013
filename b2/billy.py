@@ -99,9 +99,11 @@ class Billy:
 
     def init_windows(self):
         cv.NamedWindow("camera", 1)
-        cv.SetMouseCallback( "camera", self.on_mouse)
-        self.drag_start = None      # Set to (x,y) when mouse starts drag
-        self.track_window = None    # Set to rect when the mouse drag finishes
+        cv.NamedWindow("balls", 1)
+        cv.NamedWindow("wall", 1)
+        # cv.SetMouseCallback( "camera", self.on_mouse)
+        # self.drag_start = None      # Set to (x,y) when mouse starts drag
+        # self.track_window = None    # Set to rect when the mouse drag finishes
 
         # cv.NamedWindow("threshholded", 1)
 

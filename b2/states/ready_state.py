@@ -1,11 +1,13 @@
 from common import *
 from state_machine import *
 
+import cv2.cv as cv
+
 ## Ready State Body : initialisation and ready to go
 def ready_body(global_mem, local_mem, act, env, check_props):
 	# This state initialises memory and gets ready for the button press
 	print "In ready state"
-	stop_wheels(act)
+	stop_all_motors(act)
 	if "initialised" not in local_mem:
 		global_mem['start_time'] = time.time()
 		#PID controller, tuning params:
@@ -28,10 +30,22 @@ def ready_body(global_mem, local_mem, act, env, check_props):
 		indices_y = np.tile(range(cam_width),[cam_width,1]).transpose()
 		global_mem["indices_y"] = indices_y[0:cam_height,0:cam_width]
 
+	sm_id = env["sync_value"]["state_machine_id"]
+	frame = env["pull_value"](sm_id, "img")
+	img_thresh = env["pull_value"](sm_id, "frame")
+	# img_thresh = env["pull_value"](sm_id, "img")
+
+	cv.ShowImage("camera", frame)
+	cv.ShowImage("ball", img_thresh)
+	cv.WaitKey(10)
+	# cv.ShowImage("wall", self.get_frame())
+
 	return False, None
 
 def reset_switch_down(global_mem, local_mem, rcvd_msg, env):
-	if env["sync_value"]["do_reset"] == True:
+	sm_id = env["sync_value"]["state_machine_id"]
+	do_reset = env["pull_value"](sm_id, "do_reset")
+	if do_reset == True:
 		return True
 	else:
 		return False
@@ -46,5 +60,5 @@ def time_up_prop(global_memory, local_memory, rcvd_msg, env):
 		return False
 
 # ready -> explore
-ready_propagators = [{'proposition':ready_prop, 'dst_state_id':"ready_shoot"}]
+ready_propagators = [go_to_end, {'proposition':ready_prop, 'dst_state_id':"ready_shoot"}]
 ready_state = State(ready_body, ready_propagators)

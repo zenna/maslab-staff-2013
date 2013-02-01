@@ -57,6 +57,7 @@ class StateMachine:
 				self.switch_states(self.current_state_id, dst_state_id)
 
 	def switch_states(self, current_state_id, next_state_id):
+		self.global_mem["previous_state"] = current_state_id
 		self.current_state_id = next_state_id
 		self.states[next_state_id].rcvd_msg = self.states[current_state_id].memory
 

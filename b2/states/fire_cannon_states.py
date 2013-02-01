@@ -62,6 +62,6 @@ def ball_loaded_prop(global_mem, local_mem, act, env):
 	else:
 		return False
 
-ready_shoot_propagators = [{'proposition':ball_loaded_prop, 'dst_state_id':"shoot"}]
+ready_shoot_propagators = [go_to_end, {'proposition':ball_loaded_prop, 'dst_state_id':"shoot"}]
 ready_shoot_state = State(ready_shoot_body, ready_shoot_propagators)
-shoot_state = State(shoot_body, no_propagators)
+shoot_state = State(shoot_body, [go_to_end])

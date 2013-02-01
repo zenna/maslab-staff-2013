@@ -14,11 +14,24 @@ USE_STANDARD = True
 
 cv.NamedWindow("camera", 1)
 
-idc_red_range = (cv.Scalar(106,170,145), cv.Scalar(114,185,180))
+yidc_hl = int(20)
+yidc_sl = int(133)
+yidc_vl = int(121)
+
+yidc_hh = int(27)
+yidc_sh = int(193)
+yidc_vh = int(243)
+
+idc_yellow_range = (cv.Scalar(yidc_hl,yidc_sl,yidc_vl), cv.Scalar(yidc_hh,yidc_sh,yidc_vh))
+
+
+idc_red_range = idc_yellow_range
 
 if __name__ == "__main__":
     filename = sys.argv[1]
     img = cv.LoadImage(filename, cv.CV_LOAD_IMAGE_COLOR)
+    cv.Smooth(img, img, cv.CV_GAUSSIAN, 7, 7)
+
     hsv = cv.CreateImage(cv.GetSize(img), 8, 3)
     img_thresh = cv.CreateImage(cv.GetSize(img), 8, 1)
     cv.CvtColor(img, hsv, cv.CV_BGR2HSV)

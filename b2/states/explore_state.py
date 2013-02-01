@@ -2,6 +2,7 @@ from common import *
 from state_machine import *
 from pid import *
 
+
 def ball_present(x,y):
     if abs(x - 0.0) < 0.001 and abs(y - 0.0) < 0.001:
         return True
@@ -13,7 +14,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     # Do one full revolution using IMU
     print "Exploring"
     # Randomise turn left or right
-    initial_speed = 30
+    initial_speed = 60
     if random.randrange(2) == True:
         initial_speed = -initial_speed
     act["motor_left"].setSpeed(initial_speed)
@@ -43,21 +44,26 @@ def explore_body(global_mem, local_mem, act, env, check_props):
             act["motor_right"].setSpeed(-initial_speed)
             img_thresh = env["pull_value"](sm_id, "img")
             x,y2 = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
-            if 360 < y2 < 400:
+            
+            sweeps += 1
+            if 360 < y2 < 400 and sweeps > 5:
                 time.sleep(.5)
                 roller_on(act)
                 go_fwd(act, 30)
                 time.sleep(4)
                 stop_wheels(act)
                 roller_off(act)
-                return True, "explore"
+                if (int(time.time() - global_mem['start_time']) % 40) > 35:
+                    return True, "shoot"
+                else:
+                    return True, "explore"
 
         time_elapse = time.time() - start_time
         ir = env["pull_value"](sm_id, "get_ir")[0]
         irs.append(ir)
         time_elapses.append(time_elapses)
 
-        if time_elapse > 50:
+        if time_elapse > 5:
             break
 
     #Go back to place of farthest wall
@@ -69,8 +75,7 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     act["motor_left"].setSpeed(initial_speed)
     act["motor_right"].setSpeed(initial_speed)
     stop_wheels(act)
-    time.sleep(
-        )
+    time.sleep()
 
     return False, None
 
@@ -108,7 +113,7 @@ def ball_in_sight(global_memory, local_memory, rcvd_msg, env):
     else:
         return False
 
-find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
+find_ball_prop = [go_to_end,  {'proposition':am_init, 'dst_state_id':"explore"}]
 find_ball_state = State(explore_body,find_ball_prop)
-explore_state = State(explore_body, [] )
+explore_state = State(explore_body, [go_to_end,go_to_avoid_wall] )
 # explore_propagators = [go_to_ready, go_to_avoid_wall]

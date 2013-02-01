@@ -46,11 +46,11 @@ class ThalamicNetwork:
 		temp_current_values = defaultdict(dict)
 		for state_machine_id in self.state_machines.keys():
 			temp_current_values[state_machine_id]["state_machine_id"] = state_machine_id
-			for parent in self.parents[state_machine_id]:
-				value = self.evaluate_modulator(parent['src_node_id'])
-				temp_current_values[state_machine_id][parent['dst_arg_name']] = value
-				#Kind of hack to be able to pull values
-				# temp_current_values[state_machine_id]["pull"] = self.pull_value
+			# for parent in self.parents[state_machine_id]:
+			# 	value = self.evaluate_modulator(parent['src_node_id'])
+			# 	temp_current_values[state_machine_id][parent['dst_arg_name']] = value
+			# 	#Kind of hack to be able to pull values
+			# 	# temp_current_values[state_machine_id]["pull"] = self.pull_value
 
 		self.current_values = temp_current_values
 
