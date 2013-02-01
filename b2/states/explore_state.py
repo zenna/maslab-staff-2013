@@ -33,8 +33,6 @@ def explore_body(global_mem, local_mem, act, env, check_props):
 
         sm_id = env["sync_value"]["state_machine_id"]
         img_thresh = env["pull_value"](sm_id, "img")
-        # stop_wheels(act)
-        # time.sleep(.2)
         x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
         print y
         if 360 < y < 400:
@@ -43,8 +41,9 @@ def explore_body(global_mem, local_mem, act, env, check_props):
             print "after", initial_speed
             act["motor_left"].setSpeed(initial_speed)
             act["motor_right"].setSpeed(-initial_speed)
-            sweeps += 1
-            if sweeps > 3:
+            img_thresh = env["pull_value"](sm_id, "img")
+            x,y2 = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
+            if 360 < y2 < 400:
                 time.sleep(.5)
                 roller_on(act)
                 go_fwd(act, 30)
