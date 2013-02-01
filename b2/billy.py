@@ -48,8 +48,8 @@ class Billy:
         self.latch.setAngle(0)
         # Create an analog sensor on pin A0
         self.ir_right = arduino.AnalogInput(self.ard, 0)
-        self.ir_left = arduino.AnalogInput(self.ard, 2)
-        self.ir_ball = arduino.AnalogInput(self.ard, 1)
+        self.ir_ball = arduino.AnalogInput(self.ard, 2)
+        self.ir_left = arduino.AnalogInput(self.ard, 1)
 
         # Switches
         self.color_switch = arduino.DigitalInput(self.ard,31)
@@ -110,7 +110,7 @@ class Billy:
 
     # Return infra-red value
     def is_ball_loaded(self):
-        return self.ir_ball.getValue() > 100
+        return self.ir_ball.getValue() > 500
 
     # Return camera frame
     def get_frame(self):

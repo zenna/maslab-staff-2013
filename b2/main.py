@@ -29,8 +29,8 @@ if __name__ == "__main__":
 	wheel_controllers.add_state(rs, "ready")
 	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
-	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")
-	
+	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")	
+	wheel_controllers.add_state(fire_cannon_states.shoot_state, "ready_shoot")
 
 	wheel_controllers.set_current_state("ready")
 
