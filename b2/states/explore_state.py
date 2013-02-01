@@ -12,9 +12,6 @@ def ball_present(x,y):
 def explore_body(global_mem, local_mem, act, env, check_props):
     # Do one full revolution using IMU
     print "Exploring"
-    sm_id = env["sync_value"]["state_machine_id"]
-    img_thresh = env["pull_value"](sm_id, "img")
-
     # Randomise turn left or right
     initial_speed = 30
     if random.randrange(2) == True:
@@ -33,6 +30,11 @@ def explore_body(global_mem, local_mem, act, env, check_props):
         if do_transition == True:
             return do_transition, to_where
 
+        sm_id = env["sync_value"]["state_machine_id"]
+        img_thresh = env["pull_value"](sm_id, "img")
+        x,y = find_centroid(img_thresh,  global_mem["cam_width"],  global_mem["cam_height"],  global_mem["indices_x"],  global_mem["indices_y"])
+        print "Centroid:", x,y
+
         time_elapse = time.time() - start_time
         ir = env["pull_value"](sm_id, "get_ir")[0]
         irs.append(ir)
@@ -44,13 +46,14 @@ def explore_body(global_mem, local_mem, act, env, check_props):
     #Go back to place of farthest wall
     act["motor_left"].setSpeed(-initial_speed)
     act["motor_right"].setSpeed(initial_speed)
-    time.sleep(time_elapses[irs.index(min(items))])
+    time.sleep(time_elapses[irs.index(min(irs))])
     
     # Then go forward
     act["motor_left"].setSpeed(initial_speed)
     act["motor_right"].setSpeed(initial_speed)
     stop_wheels(act)
-    time.sleep(10)
+    time.sleep(
+        )
 
     return False, None
 
@@ -81,6 +84,12 @@ def explore_pid_body(global_mem, local_mem, act, env, check_props):
     move_differential(controller_out,global_mem, act)
 
     return False, None
+
+def ball_in_sight(global_memory, local_memory, rcvd_msg, env): 
+    if time.time() - global_mem["start_time"] > 30:
+        return True
+    else:
+        return False
 
 find_ball_prop = [{'proposition':am_init, 'dst_state_id':"explore"}]
 find_ball_state = State(explore_body,find_ball_prop)
