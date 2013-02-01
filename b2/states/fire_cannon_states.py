@@ -1,6 +1,5 @@
 from common import *
 from state_machine import *
-
 # Functions ending in body denote the main code that a state will execute
 # Ready shoot state: moves the cannon into position ready for loading
 
@@ -23,26 +22,32 @@ from state_machine import *
 # If you want to transition immediately to another state do
 # return True, state_i_want_to_go_to_name
 def ready_shoot_body(global_mem, local_mem, act, env, check_props):
+	print "readying shoot"
 	sm_id = env["sync_value"]["state_machine_id"]
 
 	while True:		
-		ir_ball = env["pull_values"](sm_id, "ir_ball")
+		ir_ball = env["pull_value"](sm_id, "ir_ball")
+		# import ipdb
+		# ipdb.set_trace()
+		# print 'ir', ir_ball
 		if ir_ball > 415:
 			act["spool"].setSpeed(0)
 			break
-		act["spool"].setSpeed(-40)
+		act["spool"].setSpeed(40)
 
 	return False, None
 
 def shoot_body(global_mem, local_mem, act, env, check_props):
+	print "shooting"
 	sm_id = env["sync_value"]["state_machine_id"]
 
 	while True:
-		high_button = env["pull_values"](sm_id, "high_button")
+		print "stuk"
+		high_button = env["pull_value"](sm_id, "high_button")
 		if high_button == True:
 			act["spool"].setSpeed(0)
 			break
-	act["spool"].setSpeed(40)
+	act["spool"].setSpeed(-40)
 
 	return True, "ready_shoot"
 
@@ -50,13 +55,12 @@ def shoot_body(global_mem, local_mem, act, env, check_props):
 # and must return true or false
 def ball_loaded_prop(global_mem, local_mem, act, env):
 	sm_id = env["sync_value"]["state_machine_id"]
-	ir_ball = env["pull_values"](sm_id, "ir_ball")
+	ir_ball = env["pull_value"](sm_id, "ir_ball")
 	if ir_ball > 500:
 		return True
 	else:
 		return False
 
 ready_shoot_propagators = [{'proposition':ball_loaded_prop, 'dst_state_id':"shoot"}]
-ready_shoot_state = State(ready_shoot_body, no_propagators)
-
+ready_shoot_state = State(ready_shoot_body, ready_shoot_propagators)
 shoot_state = State(shoot_body, no_propagators)

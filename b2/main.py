@@ -30,7 +30,7 @@ if __name__ == "__main__":
 	wheel_controllers.add_state(explore_state.find_ball_state, "find_ball")
 	wheel_controllers.add_state(explore_state.explore_state, "explore")
 	wheel_controllers.add_state(fire_cannon_states.ready_shoot_state, "ready_shoot")	
-	wheel_controllers.add_state(fire_cannon_states.shoot_state, "ready_shoot")
+	wheel_controllers.add_state(fire_cannon_states.shoot_state, "shoot")
 
 	wheel_controllers.set_current_state("ready")
 
@@ -49,6 +49,8 @@ if __name__ == "__main__":
 	thalamus.add_modulator(b4.do_reset, "do_reset")
 	thalamus.add_modulator(b4.in_red_mode, "in_red_mode")
 	thalamus.add_modulator(b4.get_imu, "get_imu")
+	thalamus.add_modulator(b4.high_button.getValue, "high_button")
+	thalamus.add_modulator(b4.ir_ball.getValue, "ir_ball")
 	thalamus.add_state_machine(wheel_controllers, "wheel_controllers")
 
 	thalamus.link_nodes("get_frame", "bgr_to_hsv", "img")
@@ -58,6 +60,8 @@ if __name__ == "__main__":
 	thalamus.link_nodes("get_imu", "wheel_controllers", "get_imu")
 	thalamus.link_nodes("do_reset", "wheel_controllers", "do_reset")
 	thalamus.link_nodes("in_red_mode", "wheel_controllers", "in_red_mode")
+	thalamus.link_nodes("ir_ball", "wheel_controllers", "ir_ball")
+	thalamus.link_nodes("high_button", "wheel_controllers", "high_button")
 
 	try:
 		thalamus.run_serial()

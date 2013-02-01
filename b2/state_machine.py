@@ -53,7 +53,7 @@ class StateMachine:
 		else:
 			do_transition, dst_state_id = current_state.check_propagations(self.global_memory, env)
 			if do_transition == True:
-				print "doing transition"
+				print "doing transition:",self.current_state_id,dst_state_id 
 				self.switch_states(self.current_state_id, dst_state_id)
 
 	def switch_states(self, current_state_id, next_state_id):

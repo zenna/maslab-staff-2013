@@ -36,7 +36,9 @@ class ThalamicNetwork:
 			if parent["dst_arg_name"] == arg_name:
 				value = self.evaluate_modulator(parent["src_node_id"])
 				return value
-		print "ERROR, PULL FAILED"
+		print "ERROR, PULL FAILED", arg_name
+		import ipdb
+		ipdb.set_trace()
 		return None
 
 	def update_state_machine_inputs(self):
@@ -58,9 +60,13 @@ class ThalamicNetwork:
 		# Perform state machine transitions
 		# run state machines
 		env = {"pull_value":self.pull_value}
+		print "here"
 		while True:
+			print "i"
 			self.update_state_machine_inputs()
 			for state_machine_id, state_machine in self.state_machines.items():
 				#Step state machine with the current values from thalamic network
+				print "am"
 				env["sync_value"] = self.current_values[state_machine_id]
+				print "yo"
 				state_machine.step(env)
